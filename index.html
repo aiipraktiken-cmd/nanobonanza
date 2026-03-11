@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nano Bonanza — Prompt Workout</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #1a1a18;
+      --rail-bg:  #000000;
+      --card-bg:  #222220;
+      --border:   transparent;
+      --border-vis: #2a2a28;
+      --text:     #ffffff;
+      --muted:    #888888;
+      --accent:   #ffffff;
+      --ok:       #ffffff;
+      --rail-w:   52px;
+      --r:        4px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: "Outfit", sans-serif;
+      font-weight: 300;
+      line-height: 1.55;
+      overflow-x: hidden;
+    }
+
+    /* ── RAIL ── */
+    .rail {
+      position: fixed;
+      inset: 0 auto 0 0;
+      width: 52px;
+      background: var(--rail-bg);
+      display: flex;
+      flex-direction: column;
+      z-index: 30;
+      overflow: hidden;
+      transition: width .25s cubic-bezier(.4,0,.2,1);
+    }
+    body.rail-open .rail { width: 200px; }
+
+    .rail-toggle {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+      border: none;
+      color: var(--muted);
+      cursor: pointer;
+      font-size: 18px;
+      letter-spacing: 1px;
+      transition: color .2s;
+      align-self: flex-start;
+    }
+    .rail-toggle:hover { color: var(--text); }
+
+    .rail-brand {
+      padding: 0 16px 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s;
+      white-space: nowrap;
+    }
+    body.rail-open .rail-brand { opacity: 1; pointer-events: auto; }
+    .rail-brand .kicker {
+      font: 400 10px/1 "JetBrains Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .rail-brand h1 {
+      font-family: "Outfit", sans-serif;
+      font-size: 17px;
+      font-weight: 400;
+      line-height: 1.2;
+      margin-top: 5px;
+    }
+
+    .rail-nav {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 6px 10px;
+      gap: 3px;
+    }
+
+    .rail-link {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      height: 32px;
+      padding: 0 2px;
+      border-radius: 6px;
+      text-decoration: none;
+      overflow: hidden;
+      white-space: nowrap;
+      transition: background .2s;
+      cursor: pointer;
+    }
+    .rail-link:not(.locked):hover { background: rgba(255,255,255,.05); }
+    .rail-link.locked { cursor: default; pointer-events: none; }
+
+    .rail-icon {
+      width: 16px;
+      height: 16px;
+      min-width: 16px;
+      margin-left: 10px;
+      color: #383838;
+      transition: color .25s, opacity .25s;
+      flex-shrink: 0;
+      display: block;
+    }
+    .rail-link.past   .rail-icon { color: #606060; }
+    .rail-link.active .rail-icon { color: #ffffff; }
+    .rail-link.locked .rail-icon { color: #1e1e1e; }
+
+    .rail-label {
+      font: 300 12px/1 "Outfit", sans-serif;
+      color: var(--muted);
+      opacity: 0;
+      transition: opacity .12s;
+    }
+    body.rail-open .rail-label { opacity: 1; }
+    .rail-link.active .rail-label { color: var(--text); }
+    .rail-link.locked .rail-label { color: #2a2a2a; }
+
+    /* ── SLIDE NAV ── */
+    .slide-nav {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      z-index: 40;
+      background: rgba(8,8,8,.88);
+      border: 1px solid #2a2a28;
+      border-radius: 100px;
+      padding: 6px 10px;
+      backdrop-filter: blur(10px);
+    }
+    .slide-nav-btn {
+      background: none;
+      border: none;
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      transition: background .2s;
+    }
+    .slide-nav-btn:hover:not(:disabled) { background: rgba(255,255,255,.08); }
+    .slide-nav-btn:disabled { color: #333; cursor: default; }
+    .slide-nav-counter {
+      font: 400 10px/1 "JetBrains Mono", monospace;
+      color: var(--muted);
+      letter-spacing: .08em;
+      min-width: 38px;
+      text-align: center;
+    }
+
+    /* ── MAIN ── */
+    .main { margin-left: 52px; transition: margin-left .25s cubic-bezier(.4,0,.2,1); }
+    body.rail-open .main { margin-left: 200px; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      padding: 80px 72px;
+      gap: 20px;
+      border-bottom: none;
+    }
+    .hero .kicker {
+      font: 400 11px/1 "JetBrains Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .hero h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2.6rem, 5.5vw, 4.2rem);
+      font-weight: 300;
+      line-height: 1.04;
+      max-width: 22ch;
+      letter-spacing: -.01em;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 1.1rem;
+      max-width: 58ch;
+    }
+    .hero-cta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    /* ── SLIDE SECTIONS (2, 3, 4) ── */
+    .slide-section {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 72px;
+    }
+    .slide-title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2.4rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -.02em;
+      margin-bottom: 52px;
+    }
+
+    /* Slide 2 — checklist */
+    .slide-section .checklist {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .slide-section .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 22px;
+      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      font-weight: 300;
+      line-height: 1.4;
+    }
+    .slide-section .checklist li::before {
+      content: "□";
+      font-size: 1.1em;
+      flex-shrink: 0;
+      margin-top: .05em;
+      color: var(--muted);
+    }
+
+    /* Slide 3 — URL + QR */
+    .url-qr-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      gap: 48px;
+    }
+    .url-text {
+      font-family: "JetBrains Mono", monospace;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
+      font-weight: 300;
+      color: var(--muted);
+    }
+    .qr-box {
+      width: 160px;
+      height: 160px;
+      background: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .qr-box span {
+      color: #000;
+      font: 400 9px/1.4 "JetBrains Mono", monospace;
+      text-align: center;
+    }
+
+    /* Slide 4 — cluster overview grid (full-bleed, exact PDF match) */
+    .slide-section#oversikt {
+      padding: 0;
+      height: 100vh;
+      min-height: unset;
+      background: #252523;
+      display: block;
+    }
+    .cgo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      height: 100%;
+      width: 100%;
+    }
+    .cgo-cell {
+      display: flex;
+      align-items: flex-start;
+      padding: 44px 52px;
+      border-right: 1px solid #3a3a38;
+      border-bottom: 1px solid #3a3a38;
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.15rem, 2.2vw, 1.6rem);
+      font-weight: 300;
+      letter-spacing: -.01em;
+      color: var(--text);
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .cgo-cell:nth-child(even) { border-right: none; }
+    .cgo-cell:nth-child(5),
+    .cgo-cell:nth-child(6) { border-bottom: none; }
+    .cgo-cell:hover { background: rgba(255,255,255,.04); }
+
+    /* Slide 5 — prompt overview grid */
+    .slide-section#prompt-ovr {
+      padding: 0;
+      height: 100vh;
+      min-height: unset;
+      background: #252523;
+      display: block;
+    }
+    .pgo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: repeat(3, 1fr);
+      height: 100%;
+      width: 100%;
+    }
+    .pgo-cell {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 36px 48px;
+      border-right: 1px solid #3a3a38;
+      border-bottom: 1px solid #3a3a38;
+      text-decoration: none;
+      color: var(--text);
+      transition: background .2s;
+      overflow: hidden;
+    }
+    .pgo-cell:nth-child(even) { border-right: none; }
+    .pgo-cell:nth-child(5),
+    .pgo-cell:nth-child(6) { border-bottom: none; }
+    .pgo-cell:hover { background: rgba(255,255,255,.04); }
+    .pgo-num {
+      font: 300 10px/1 "JetBrains Mono", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .pgo-title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.4rem);
+      font-weight: 300;
+      letter-spacing: -.01em;
+      line-height: 1.2;
+    }
+    .pgo-text {
+      font: 300 11.5px/1.75 "JetBrains Mono", monospace;
+      color: var(--muted);
+      display: -webkit-box;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* ── CLUSTER SECTION ── */
+    .cluster {
+      scroll-margin-top: 0;
+    }
+
+    /* Above-fold: exactly 100vh — left prompt + right two images */
+    .cluster-above {
+      height: 100vh;
+      display: grid;
+      grid-template-columns: 42fr 58fr;
+    }
+
+    .cluster-left {
+      padding: 52px 40px 32px 72px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      overflow-y: auto;
+      border-right: 1px solid #1c1c1a;
+    }
+
+    .cluster-num {
+      font: 300 11px/1 "JetBrains Mono", monospace;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .cluster-title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 300;
+      line-height: 1.05;
+      letter-spacing: -.02em;
+      margin-bottom: 8px;
+    }
+
+    /* Two image panels side by side */
+    .cluster-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background: #121212;
+    }
+    .cluster-img-panel {
+      position: relative;
+      overflow: hidden;
+    }
+    .cluster-img-panel + .cluster-img-panel {
+      border-left: 1px solid #1e1e1c;
+    }
+    .img-panel-label {
+      position: absolute;
+      top: 16px;
+      left: 16px;
+      font: 400 10px/1 "JetBrains Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #3a3a38;
+      z-index: 1;
+    }
+    .img-placeholder {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: 24px;
+    }
+    .img-placeholder p {
+      font: 400 11px/1.7 "JetBrains Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #2e2e2c;
+    }
+
+    /* actual images if added */
+    .cluster-img-panel img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .ex-label {
+      font-family: "Outfit", sans-serif;
+      font-size: 1.25rem;
+      font-weight: 300;
+      color: var(--text);
+      letter-spacing: -.01em;
+    }
+    .ex-prompt {
+      background: transparent;
+      border: none;
+      padding: 0;
+      font: 300 14px/1.9 "JetBrains Mono", monospace;
+      color: var(--text);
+      white-space: pre-wrap;
+      flex: 1;
+    }
+    .ex-hint {
+      font-size: .8rem;
+      color: var(--muted);
+      font-family: "JetBrains Mono", monospace;
+      font-weight: 300;
+    }
+    .scroll-hint {
+      font: 300 10px/1 "JetBrains Mono", monospace;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: #2e2e2e;
+      text-align: center;
+      margin-top: auto;
+      padding-top: 12px;
+    }
+
+    /* Below-fold content */
+    .cluster-below {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+    .cluster-col {
+      padding: 36px 48px 36px 72px;
+    }
+    .cluster-col:last-child {
+      padding-left: 48px;
+    }
+
+    .col-label {
+      font: 400 10px/1 "JetBrains Mono", monospace;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 14px;
+    }
+    .col-title {
+      font-family: "Outfit", sans-serif;
+      font-size: .95rem;
+      font-weight: 300;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    /* Copy block */
+    .copy-block {
+      background: var(--card-bg);
+      border: none;
+      border-radius: var(--r);
+      padding: 18px;
+      position: relative;
+    }
+    .copy-block pre {
+      font: 300 13px/1.85 "JetBrains Mono", monospace;
+      color: var(--text);
+      white-space: pre-wrap;
+    }
+    .copy-block .copy-btn {
+      margin-top: 14px;
+    }
+
+    /* Extra prompts */
+    .extras { display: flex; flex-direction: column; gap: 8px; }
+    .extra {
+      background: transparent;
+      border: none;
+      border-radius: 0;
+      padding: 10px 0;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      border-bottom: 1px solid #252523;
+    }
+    .extra:last-child { border-bottom: none; }
+    .extra p {
+      font: 300 12.5px/1.75 "JetBrains Mono", monospace;
+      color: var(--muted);
+      flex: 1;
+    }
+    .extra:hover p { color: var(--text); }
+
+    /* BUTTONS */
+    .btn, .copy-btn {
+      appearance: none;
+      border: 1px solid #3a3a38;
+      background: transparent;
+      color: var(--muted);
+      border-radius: var(--r);
+      padding: 9px 14px;
+      font: 400 11px/1 "JetBrains Mono", monospace;
+      letter-spacing: .07em;
+      text-transform: uppercase;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: color .18s, border-color .18s;
+    }
+    .btn:hover, .copy-btn:hover {
+      color: var(--text);
+      border-color: var(--muted);
+    }
+    .btn.primary {
+      border-color: var(--muted);
+      color: var(--text);
+    }
+    .btn.primary:hover {
+      border-color: var(--text);
+    }
+    .copy-btn.ok {
+      border-color: var(--text);
+      color: var(--text);
+    }
+
+    .next-link {
+      display: flex;
+      justify-content: flex-end;
+      padding: 20px 72px 36px;
+    }
+
+    /* OUTRO */
+    .outro {
+      padding: 72px 72px 100px;
+    }
+    .outro .section-label {
+      font: 400 11px/1 "JetBrains Mono", monospace;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .outro h2 {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 300;
+      margin-bottom: 8px;
+      letter-spacing: -.01em;
+    }
+    .outro > p {
+      color: var(--muted);
+      margin-bottom: 32px;
+      max-width: 62ch;
+    }
+    .outro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .outro-card {
+      background: var(--card-bg);
+      border: none;
+      border-radius: var(--r);
+      padding: 24px;
+    }
+    .outro-card h3 {
+      font-family: "Outfit", sans-serif;
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 16px;
+    }
+    .outro .checklist { display: flex; flex-direction: column; gap: 10px; }
+    .check-item {
+      display: flex;
+      gap: 10px;
+      font-size: .9rem;
+      color: var(--muted);
+    }
+    .check-item::before {
+      content: "○";
+      font-family: "JetBrains Mono", monospace;
+      color: var(--muted);
+      flex-shrink: 0;
+    }
+
+    .outro-nav { margin-top: 32px; }
+
+    @media (max-width: 1000px) {
+      .rail { display: none; }
+      .main { margin-left: 0; }
+      .cluster-above { grid-template-columns: 1fr; }
+      .cluster-right { min-height: 50vw; }
+      .cluster-below { grid-template-columns: 1fr; }
+      .cluster-col:first-child { border-bottom: 1px solid var(--border-vis); }
+      .hero, .cluster-left, .cluster-header, .next-link, .outro { padding-left: 24px; padding-right: 24px; }
+      .cluster-col { padding-left: 24px; padding-right: 24px; }
+      .cluster-lead { display: none; }
+      .outro-grid { grid-template-columns: 1fr; }
+      .slide-nav { bottom: 12px; right: 12px; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ SVG SPRITE ══ -->
+<svg xmlns="http://www.w3.org/2000/svg" style="display:none" aria-hidden="true">
+  <!-- home / intro -->
+  <symbol id="icon-home" viewBox="0 0 16 16">
+    <path d="M8 2L2 7v7h4v-4h4v4h4V7L8 2z" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linejoin="round" stroke-linecap="round"/>
+  </symbol>
+  <!-- list / upplagg checklist -->
+  <symbol id="icon-list" viewBox="0 0 16 16">
+    <line x1="5" y1="4" x2="13" y2="4" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+    <line x1="5" y1="8" x2="13" y2="8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+    <line x1="5" y1="12" x2="13" y2="12" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+    <circle cx="2.5" cy="4" r="1" fill="currentColor"/>
+    <circle cx="2.5" cy="8" r="1" fill="currentColor"/>
+    <circle cx="2.5" cy="12" r="1" fill="currentColor"/>
+  </symbol>
+  <!-- link / upplagg url -->
+  <symbol id="icon-link" viewBox="0 0 16 16">
+    <path d="M6.5 9.5A3.5 3.5 0 009 10.5l1.5-1.5a2.5 2.5 0 00-3.5-3.5L5.5 7" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linecap="round"/>
+    <path d="M9.5 6.5A3.5 3.5 0 007 5.5L5.5 7a2.5 2.5 0 003.5 3.5L10.5 9" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <!-- grid / overview -->
+  <symbol id="icon-grid" viewBox="0 0 16 16">
+    <rect x="2" y="2" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <rect x="9" y="2" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <rect x="2" y="9" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <rect x="9" y="9" width="5" height="5" rx="0.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+  </symbol>
+  <!-- person / portrait studio -->
+  <symbol id="icon-person" viewBox="0 0 16 16">
+    <circle cx="8" cy="5.5" r="2.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <path d="M2.5 14c0-3 2.5-5.5 5.5-5.5s5.5 2.5 5.5 5.5" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linecap="round"/>
+  </symbol>
+  <!-- persons / portrait environment -->
+  <symbol id="icon-persons" viewBox="0 0 16 16">
+    <circle cx="5.5" cy="5" r="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    <path d="M1 13.5c0-2.5 2-4.5 4.5-4.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <circle cx="11" cy="5" r="2" stroke="currentColor" stroke-width="1.2" fill="none"/>
+    <path d="M11 9c2.5 0 4.5 2 4.5 4.5" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+    <line x1="8" y1="13.5" x2="8.1" y2="13.5" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+  </symbol>
+  <!-- box / product -->
+  <symbol id="icon-box" viewBox="0 0 16 16">
+    <path d="M8 2L14 5.5v5L8 14 2 10.5v-5L8 2z" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linejoin="round"/>
+    <line x1="8" y1="2" x2="8" y2="14" stroke="currentColor" stroke-width="1.25"/>
+    <path d="M2 5.5l6 3.5 6-3.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+  </symbol>
+  <!-- photo / stock images -->
+  <symbol id="icon-photo" viewBox="0 0 16 16">
+    <rect x="2" y="3" width="12" height="10" rx="1" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <circle cx="5.5" cy="6.5" r="1.5" stroke="currentColor" stroke-width="1.25" fill="none"/>
+    <path d="M2 11l3.5-3 2.5 2 2-2 4 3" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+  <!-- document / editorial -->
+  <symbol id="icon-doc" viewBox="0 0 16 16">
+    <path d="M4 2h6l4 4v8H4V2z" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linejoin="round"/>
+    <path d="M10 2v4h4" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linecap="round"/>
+    <line x1="6" y1="8" x2="10" y2="8" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+    <line x1="6" y1="11" x2="9" y2="11" stroke="currentColor" stroke-width="1.25" stroke-linecap="round"/>
+  </symbol>
+  <!-- bolt / viral -->
+  <symbol id="icon-bolt" viewBox="0 0 16 16">
+    <path d="M9.5 2L4 9h5l-2.5 5L13 7H8L9.5 2z" stroke="currentColor" stroke-width="1.25" fill="none" stroke-linejoin="round"/>
+  </symbol>
+  <!-- star / outro -->
+  <symbol id="icon-star" viewBox="0 0 16 16">
+    <path d="M8 2l1.5 4H14l-3.5 2.5 1.3 4L8 10.5l-3.8 2.5L5.5 9 2 6.5h4.5L8 2z" stroke="currentColor" stroke-width="1.2" fill="none" stroke-linejoin="round"/>
+  </symbol>
+</svg>
+
+<!-- ══ RAIL ══ -->
+<aside class="rail">
+  <button class="rail-toggle" id="railToggle" title="Visa/göm meny">≡</button>
+  <div class="rail-brand">
+    <p class="kicker">Prompt Workout</p>
+    <h1>Nano Bonanza</h1>
+  </div>
+  <nav class="rail-nav">
+    <a class="rail-link" data-idx="0"  href="#intro">    <svg class="rail-icon" aria-hidden="true"><use href="#icon-home"/></svg><span class="rail-label">Intro</span></a>
+    <a class="rail-link" data-idx="1"  href="#upplagg1"><svg class="rail-icon" aria-hidden="true"><use href="#icon-list"/></svg><span class="rail-label">Upplägg</span></a>
+    <a class="rail-link" data-idx="2"  href="#upplagg2"><svg class="rail-icon" aria-hidden="true"><use href="#icon-link"/></svg><span class="rail-label">Länk</span></a>
+    <a class="rail-link" data-idx="3"  href="#oversikt">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-grid"/></svg><span class="rail-label">Översikt</span></a>
+    <a class="rail-link" data-idx="4"  href="#prompt-ovr"> <svg class="rail-icon" aria-hidden="true"><use href="#icon-grid"/></svg><span class="rail-label">Prompts</span></a>
+    <a class="rail-link" data-idx="5"  href="#p1">         <svg class="rail-icon" aria-hidden="true"><use href="#icon-person"/></svg><span class="rail-label">01 · Porträtt 1</span></a>
+    <a class="rail-link" data-idx="6"  href="#p2">         <svg class="rail-icon" aria-hidden="true"><use href="#icon-persons"/></svg><span class="rail-label">02 · Porträtt 2</span></a>
+    <a class="rail-link" data-idx="7"  href="#prod">       <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">03 · Produkt</span></a>
+    <a class="rail-link" data-idx="8"  href="#stock">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">04 · Stockbilder</span></a>
+    <a class="rail-link" data-idx="9"  href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">05 · Redaktionellt</span></a>
+    <a class="rail-link" data-idx="10" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">06 · Viralt</span></a>
+    <a class="rail-link" data-idx="11" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
+  </nav>
+</aside>
+
+<!-- ══ MAIN ══ -->
+<main class="main">
+
+  <!-- HERO -->
+  <section id="intro" class="hero" data-s>
+    <p class="kicker">Unconf 2026 · Workout session</p>
+    <h2>Nano Bonanza</h2>
+    <p>Sex prompt-kategorier att testa live. Varje tema har en exempelprompt, en mallprompt att kopiera och 2–3 extra varianter att köra direkt.</p>
+    <div class="hero-cta">
+      <a class="btn primary" href="#p1">Starta passet</a>
+      <a class="btn" href="#upplagg1">Se formatet</a>
+    </div>
+  </section>
+
+  <!-- SLIDE 2 — Upplägg (checklist) -->
+  <section id="upplagg1" class="slide-section" data-s>
+    <h2 class="slide-title">Upplägg</h2>
+    <ul class="checklist">
+      <li>Gemensam genomgång av en promptgrupp</li>
+      <li>Du testar prompten själv</li>
+      <li>Om du hinner/vill så delar du din bild</li>
+    </ul>
+  </section>
+
+  <!-- SLIDE 3 — Upplägg (URL + QR) -->
+  <section id="upplagg2" class="slide-section" data-s>
+    <h2 class="slide-title">Upplägg</h2>
+    <div class="url-qr-grid">
+      <p class="url-text">www.xxx.sd</p>
+      <div class="qr-box"><span>QR-kod<br>till sidan</span></div>
+    </div>
+  </section>
+
+  <!-- SLIDE 4 — Cluster overview -->
+  <section id="oversikt" class="slide-section" data-s>
+    <div class="cgo-grid">
+      <a href="#p1" class="cgo-cell">Porträtt 1</a>
+      <a href="#p2" class="cgo-cell">Porträtt 2</a>
+      <a href="#prod" class="cgo-cell">Produkt</a>
+      <a href="#stock" class="cgo-cell">Stockbilder</a>
+      <a href="#red" class="cgo-cell">Redaktionellt</a>
+      <a href="#viral" class="cgo-cell">Viralt</a>
+    </div>
+  </section>
+
+  <!-- SLIDE 5 — Prompt overview -->
+  <section id="prompt-ovr" class="slide-section" data-s>
+    <div class="pgo-grid">
+      <a href="#p1" class="pgo-cell">
+        <span class="pgo-num">Prompt 01</span>
+        <span class="pgo-title">Porträtt — Studio</span>
+        <span class="pgo-text">Photorealistic studio portrait of [subject], 85mm lens, soft key light from left, subtle rim light, neutral gray seamless backdrop, cinematic skin texture, high detail, no text, no watermark.</span>
+      </a>
+      <a href="#p2" class="pgo-cell">
+        <span class="pgo-num">Prompt 02</span>
+        <span class="pgo-title">Porträtt — Miljö</span>
+        <span class="pgo-text">Environmental portrait of [subject] in [location], natural window light, candid stance, documentary mood, 35mm lens perspective, subtle grain, realistic color grading.</span>
+      </a>
+      <a href="#prod" class="pgo-cell">
+        <span class="pgo-num">Prompt 03</span>
+        <span class="pgo-title">Produkt</span>
+        <span class="pgo-text">Commercial product shot of [product], floating composition, controlled softbox lighting, crisp specular highlights, minimal white backdrop, premium catalog style, ultra sharp.</span>
+      </a>
+      <a href="#stock" class="pgo-cell">
+        <span class="pgo-num">Prompt 04</span>
+        <span class="pgo-title">Stockbilder</span>
+        <span class="pgo-text">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</span>
+      </a>
+      <a href="#red" class="pgo-cell">
+        <span class="pgo-num">Prompt 05</span>
+        <span class="pgo-title">Redaktionellt</span>
+        <span class="pgo-text">Editorial photo of [scene], on-location reportage style, available light, human storytelling, balanced composition, subtle film grain, magazine-ready realism, no text overlays.</span>
+      </a>
+      <a href="#viral" class="pgo-cell">
+        <span class="pgo-num">Prompt 06</span>
+        <span class="pgo-title">Viralt</span>
+        <span class="pgo-text">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 01 ══════════════════ -->
+  <section id="p1" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 01</p>
+        <h2 class="cluster-title">Porträtt — Studio</h2>
+        <p class="ex-label">Exempelprompt</p>
+        <pre class="ex-prompt" id="p1-ex">Photorealistic studio portrait of [subject], 85mm lens, soft key light from left, subtle rim light, neutral gray seamless backdrop, cinematic skin texture, high detail, no text, no watermark.</pre>
+        <p class="ex-hint">Justera: subject, skin tone, light ratio, focal length.</p>
+        <p class="scroll-hint">↓ mall-prompt + extra</p>
+      </div>
+      <div class="cluster-images">
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Referensbild</span>
+          <div class="img-placeholder"><p>Referensbild<br>Porträtt 4:5</p></div>
+        </div>
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Output</span>
+          <div class="img-placeholder"><p>Output-bild<br>Porträtt 4:5</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="p1-tmpl">Studio portrait of [person], [camera] lens, [key light setup], [fill light setup], [background], [mood], [color palette], ultra detailed, realistic, no text, no logo.</pre>
+          <button class="copy-btn" data-copy="p1-tmpl">Kopiera mall</button>
+        </div>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="p1-e1">High-key beauty portrait, white cyclorama, soft diffused light, editorial makeup, clean minimal feel.</p>
+            <button class="copy-btn" data-copy="p1-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="p1-e2">Low-key dramatic portrait, pure black background, hard side light, high contrast shadows, intense gaze.</p>
+            <button class="copy-btn" data-copy="p1-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="p1-e3">Fine art portrait, Rembrandt lighting, 50mm, shallow depth of field, desaturated warm tones, painterly texture.</p>
+            <button class="copy-btn" data-copy="p1-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#p2">Nästa prompt →</a></div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 02 ══════════════════ -->
+  <section id="p2" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 02</p>
+        <h2 class="cluster-title">Porträtt — Miljö</h2>
+        <p class="ex-label">Exempelprompt</p>
+        <pre class="ex-prompt" id="p2-ex">Environmental portrait of [subject] in [location], natural window light, candid stance, documentary mood, 35mm lens perspective, subtle grain, realistic color grading.</pre>
+        <p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
+        <p class="scroll-hint">↓ mall-prompt + extra</p>
+      </div>
+      <div class="cluster-images">
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Referensbild</span>
+          <div class="img-placeholder"><p>Referensbild<br>Porträtt 4:5</p></div>
+        </div>
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Output</span>
+          <div class="img-placeholder"><p>Output-bild<br>Porträtt 4:5</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="p2-tmpl">Environmental portrait of [person], in [scene], [lighting], [camera angle], [lens], [emotion], [color style], natural details, realistic texture, no text.</pre>
+          <button class="copy-btn" data-copy="p2-tmpl">Kopiera mall</button>
+        </div>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="p2-e1">Street portrait at golden hour, warm backlight, urban texture, spontaneous expression, shallow DoF.</p>
+            <button class="copy-btn" data-copy="p2-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="p2-e2">Café portrait by rainy window, soft overcast light, intimate editorial framing, warm tones.</p>
+            <button class="copy-btn" data-copy="p2-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="p2-e3">Workshop portrait in industrial loft, practical lamp pools, gritty documentary feel, 28mm wide.</p>
+            <button class="copy-btn" data-copy="p2-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#prod">Nästa prompt →</a></div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 03 ══════════════════ -->
+  <section id="prod" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 03</p>
+        <h2 class="cluster-title">Produkt</h2>
+        <p class="ex-label">Exempelprompt</p>
+        <pre class="ex-prompt" id="prod-ex">Commercial product shot of [product], floating composition, controlled softbox lighting, crisp specular highlights, minimal white backdrop, premium catalog style, ultra sharp.</pre>
+        <p class="ex-hint">Justera: material, reflection, backdrop, angle, hero ratio.</p>
+        <p class="scroll-hint">↓ mall-prompt + extra</p>
+      </div>
+      <div class="cluster-images">
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Referensbild</span>
+          <div class="img-placeholder"><p>Referensbild<br>Produkt 1:1</p></div>
+        </div>
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Output</span>
+          <div class="img-placeholder"><p>Output-bild<br>Produkt 1:1</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="prod-tmpl">Hero product shot of [item], [background style], [lighting setup], [camera angle], [surface], [brand mood], clean commercial look, no people, no text.</pre>
+          <button class="copy-btn" data-copy="prod-tmpl">Kopiera mall</button>
+        </div>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="prod-e1">Skincare bottle on wet acrylic surface, soft reflections, pastel gradient background, cosmetic elegance.</p>
+            <button class="copy-btn" data-copy="prod-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="prod-e2">Tech headphones suspended mid-air, dramatic rim light, matte charcoal backdrop, shadow plane below.</p>
+            <button class="copy-btn" data-copy="prod-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="prod-e3">Sneaker close-up macro, directional hard light, textured concrete base, brand colorway accent.</p>
+            <button class="copy-btn" data-copy="prod-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#stock">Nästa prompt →</a></div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 04 ══════════════════ -->
+  <section id="stock" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 04</p>
+        <h2 class="cluster-title">Stockbilder</h2>
+        <p class="ex-label">Exempelprompt</p>
+        <pre class="ex-prompt" id="stock-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
+        <p class="ex-hint">Justera: industry, age mix, office style, camera distance.</p>
+        <p class="scroll-hint">↓ mall-prompt + extra</p>
+      </div>
+      <div class="cluster-images">
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Referensbild</span>
+          <div class="img-placeholder"><p>Referensbild<br>Stock 3:2</p></div>
+        </div>
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Output</span>
+          <div class="img-placeholder"><p>Output-bild<br>Stock 3:2</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="stock-tmpl">Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.</pre>
+          <button class="copy-btn" data-copy="stock-tmpl">Kopiera mall</button>
+        </div>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="stock-e1">Parent and child cooking dinner at home, warm practical light, candid laughter, cozy kitchen setting.</p>
+            <button class="copy-btn" data-copy="stock-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="stock-e2">Remote worker at kitchen table, morning side light, calm minimalist setting, coffee steam visible.</p>
+            <button class="copy-btn" data-copy="stock-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="stock-e3">Friends cycling in city park, dynamic wide angle, upbeat lifestyle mood, golden afternoon light.</p>
+            <button class="copy-btn" data-copy="stock-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#red">Nästa prompt →</a></div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 05 ══════════════════ -->
+  <section id="red" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 05</p>
+        <h2 class="cluster-title">Redaktionellt</h2>
+        <p class="ex-label">Exempelprompt</p>
+        <pre class="ex-prompt" id="red-ex">Editorial photo of [scene], on-location reportage style, available light, human storytelling, balanced composition, subtle film grain, magazine-ready realism, no text overlays.</pre>
+        <p class="ex-hint">Justera: event type, subject focus, mood tone, framing tightness.</p>
+        <p class="scroll-hint">↓ mall-prompt + extra</p>
+      </div>
+      <div class="cluster-images">
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Referensbild</span>
+          <div class="img-placeholder"><p>Referensbild<br>Editorial 3:2</p></div>
+        </div>
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Output</span>
+          <div class="img-placeholder"><p>Output-bild<br>Editorial 3:2</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="red-tmpl">Editorial reportage photo of [subject/event] in [location], [lighting source], [shot type], [tone], realistic documentary style, no text overlays.</pre>
+          <button class="copy-btn" data-copy="red-tmpl">Kopiera mall</button>
+        </div>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="red-e1">Chef plating during dinner rush, stainless kitchen reflections, candid motion blur, intense focus.</p>
+            <button class="copy-btn" data-copy="red-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="red-e2">Volunteers at polling station, fluorescent indoor light, factual neutral framing, authentic faces.</p>
+            <button class="copy-btn" data-copy="red-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="red-e3">Local craft market portrait, natural overcast light, storytelling background details, warm editorial.</p>
+            <button class="copy-btn" data-copy="red-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#viral">Nästa prompt →</a></div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 06 ══════════════════ -->
+  <section id="viral" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 06</p>
+        <h2 class="cluster-title">Viralt</h2>
+        <p class="ex-label">Exempelprompt</p>
+        <pre class="ex-prompt" id="viral-ex">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</pre>
+        <p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
+        <p class="scroll-hint">↓ mall-prompt + extra</p>
+      </div>
+      <div class="cluster-images">
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Referensbild</span>
+          <div class="img-placeholder"><p>Referensbild<br>Social 4:5</p></div>
+        </div>
+        <div class="cluster-img-panel">
+          <span class="img-panel-label">Output</span>
+          <div class="img-placeholder"><p>Output-bild<br>Social 4:5</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="viral-tmpl">Create a viral social image of [idea], featuring [unexpected element], [camera style], [color strategy], clear emotional hook, platform-ready composition, no text.</pre>
+          <button class="copy-btn" data-copy="viral-tmpl">Kopiera mall</button>
+        </div>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="viral-e1">Tiny barista inside a giant coffee cup, cinematic steam, playful surreal realism, warm morning light.</p>
+            <button class="copy-btn" data-copy="viral-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="viral-e2">City street frozen in time except one runner in motion, strong red accent, surreal contrast.</p>
+            <button class="copy-btn" data-copy="viral-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="viral-e3">Split-scene before/after transformation in one frame, impossible but photorealistic lighting throughout.</p>
+            <button class="copy-btn" data-copy="viral-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#outro">Till outro →</a></div>
+  </section>
+
+  <!-- OUTRO -->
+  <section id="outro" class="outro" data-s>
+    <p class="section-label">Wrap-up</p>
+    <h2>Alla mall-prompts</h2>
+    <p>Kopiera hela samlingen i ett block för att dela med gruppen eller testa sekventiellt i Nano Bonanza.</p>
+    <div class="outro-grid">
+      <div class="outro-card">
+        <h3>Checklista före passet</h3>
+        <div class="checklist">
+          <div class="check-item">Lägg in slutliga exempelbilder i varje cluster</div>
+          <div class="check-item">Ersätt placeholders [subject], [scene], [mood] med session-specifika värden</div>
+          <div class="check-item">Testkör copy-flöde på mobil och desktop innan live</div>
+          <div class="check-item">Välj vilka extra prompts du vill demonstrera live</div>
+        </div>
+      </div>
+      <div class="outro-card">
+        <h3>Kopiera alla mall-prompts</h3>
+        <div class="copy-block">
+          <pre id="all-tmpls">Porträtt 1 (Studio):
+Studio portrait of [person], [camera] lens, [key light setup], [fill light setup], [background], [mood], [color palette], ultra detailed, realistic, no text, no logo.
+
+Porträtt 2 (Miljö):
+Environmental portrait of [person], in [scene], [lighting], [camera angle], [lens], [emotion], [color style], natural details, realistic texture, no text.
+
+Produkt:
+Hero product shot of [item], [background style], [lighting setup], [camera angle], [surface], [brand mood], clean commercial look, no people, no text.
+
+Stockbilder:
+Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.
+
+Redaktionellt:
+Editorial reportage photo of [subject/event] in [location], [lighting source], [shot type], [tone], realistic documentary style, no text overlays.
+
+Viralt:
+Create a viral social image of [idea], featuring [unexpected element], [camera style], [color strategy], clear emotional hook, platform-ready composition, no text.</pre>
+          <button class="copy-btn" data-copy="all-tmpls">Kopiera allt</button>
+        </div>
+      </div>
+    </div>
+    <div class="outro-nav"><a class="btn primary" href="#intro">↑ Tillbaka till toppen</a></div>
+  </section>
+
+</main>
+
+<!-- ══ SLIDE NAV ══ -->
+<div class="slide-nav">
+  <button class="slide-nav-btn" id="prevBtn">←</button>
+  <span class="slide-nav-counter" id="slideCounter">1 / 12</span>
+  <button class="slide-nav-btn" id="nextBtn">→</button>
+</div>
+
+<script>
+  // ── Slide system ──────────────────────────────────────────────────────
+  const SLIDES    = ['intro','upplagg1','upplagg2','oversikt','prompt-ovr','p1','p2','prod','stock','red','viral','outro'];
+  const railLinks = Array.from(document.querySelectorAll('.rail-link[data-idx]'));
+  const prevBtn   = document.getElementById('prevBtn');
+  const nextBtn   = document.getElementById('nextBtn');
+  const counter   = document.getElementById('slideCounter');
+  let currentSlide = 0;
+
+  function slideEl(idx) { return document.getElementById(SLIDES[idx]); }
+
+  // Cache max scroll for current section; invalidate on navigation and resize
+  let _scrollMax = Infinity;
+  function updateScrollMax() {
+    if (currentSlide >= SLIDES.length - 1) { _scrollMax = Infinity; return; }
+    const el = slideEl(currentSlide);
+    _scrollMax = el ? el.offsetTop + el.offsetHeight - window.innerHeight : Infinity;
+  }
+  window.addEventListener('resize', updateScrollMax, { passive: true });
+
+  function updateUI() {
+    railLinks.forEach((link, i) => {
+      link.classList.toggle('active', i === currentSlide);
+      link.classList.toggle('past',   i <  currentSlide);
+      link.classList.toggle('locked', i >  currentSlide);
+    });
+    counter.textContent = `${currentSlide + 1} / ${SLIDES.length}`;
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === SLIDES.length - 1;
+  }
+
+  function goTo(idx) {
+    idx = Math.max(0, Math.min(SLIDES.length - 1, idx));
+    currentSlide = idx;
+    const el = slideEl(idx);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    updateUI();
+    updateScrollMax();
+  }
+
+  // ── Scroll lock: block wheel/touch scroll past current section ────────
+  window.addEventListener('wheel', (e) => {
+    if (e.deltaY <= 0) return;
+    if (isFinite(_scrollMax) && window.scrollY >= _scrollMax - 2) e.preventDefault();
+  }, { passive: false });
+
+  let _touchY = 0;
+  window.addEventListener('touchstart', (e) => { _touchY = e.touches[0].clientY; }, { passive: true });
+  window.addEventListener('touchmove', (e) => {
+    const delta = _touchY - e.touches[0].clientY;
+    if (delta <= 0) return;
+    if (isFinite(_scrollMax) && window.scrollY >= _scrollMax - 2) e.preventDefault();
+  }, { passive: false });
+
+  // Safety snap-back (handles momentum/inertia)
+  window.addEventListener('scroll', () => {
+    if (isFinite(_scrollMax) && window.scrollY > _scrollMax + 2) {
+      window.scrollTo({ top: _scrollMax, behavior: 'instant' });
+    }
+  }, { passive: true });
+
+  // ── Rail link clicks ──────────────────────────────────────────────────
+  railLinks.forEach((link, i) => {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      if (i <= currentSlide) goTo(i);
+    });
+  });
+
+  // ── Next-link buttons inside clusters ────────────────────────────────
+  document.querySelectorAll('.next-link a').forEach(a => {
+    a.addEventListener('click', (e) => { e.preventDefault(); goTo(currentSlide + 1); });
+  });
+
+  // ── Floating nav buttons ──────────────────────────────────────────────
+  prevBtn.addEventListener('click', () => goTo(currentSlide - 1));
+  nextBtn.addEventListener('click', () => goTo(currentSlide + 1));
+
+  // ── Keyboard: arrows + space ──────────────────────────────────────────
+  document.addEventListener('keydown', (e) => {
+    if (['INPUT','TEXTAREA','SELECT'].includes(e.target.tagName)) return;
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault(); goTo(currentSlide + 1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault(); goTo(currentSlide - 1);
+    }
+  });
+
+  // ── Rail toggle ───────────────────────────────────────────────────────
+  document.getElementById('railToggle').addEventListener('click', () => {
+    document.body.classList.toggle('rail-open');
+  });
+
+  // ── Init ──────────────────────────────────────────────────────────────
+  updateUI();
+  updateScrollMax();
+
+  // ── Copy buttons ──────────────────────────────────────────────────────
+  async function copyText(text) {
+    try { await navigator.clipboard.writeText(text); }
+    catch {
+      const ta = Object.assign(document.createElement('textarea'), { value: text });
+      ta.style.cssText = 'position:fixed;opacity:0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy'); ta.remove();
+    }
+  }
+
+  // Assemble "copy all" block dynamically from source templates to avoid content drift
+  const _tmplEntries = [
+    ['Porträtt 1 (Studio):',  'p1-tmpl'],
+    ['Porträtt 2 (Miljö):',   'p2-tmpl'],
+    ['Produkt:',               'prod-tmpl'],
+    ['Stockbilder:',           'stock-tmpl'],
+    ['Redaktionellt:',         'red-tmpl'],
+    ['Viralt:',                'viral-tmpl'],
+  ];
+  const allTmplsEl = document.getElementById('all-tmpls');
+  if (allTmplsEl) {
+    allTmplsEl.textContent = _tmplEntries
+      .map(([label, id]) => `${label}\n${document.getElementById(id).textContent.trim()}`)
+      .join('\n\n');
+  }
+
+  // Cache element references at init to avoid per-click DOM queries
+  document.querySelectorAll('.copy-btn[data-copy]').forEach(btn => {
+    const target = document.getElementById(btn.dataset.copy);
+    if (!target) return;
+    btn.addEventListener('click', async () => {
+      await copyText(target.textContent.trim());
+      const orig = btn.textContent;
+      btn.classList.add('ok'); btn.textContent = '✓';
+      setTimeout(() => { btn.classList.remove('ok'); btn.textContent = orig; }, 1400);
+    });
+  });
+</script>
+</body>
+</html>
