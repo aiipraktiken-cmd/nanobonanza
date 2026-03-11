@@ -1534,7 +1534,7 @@
 
     const widget = document.createElement('div');
     widget.id = 'presenterWidget';
-    widget.innerHTML = `<span id="presenterBanana">🍌</span><span id="widgetLabel">laden…</span><button id="widgetReset">↩ reset</button>`;
+    widget.innerHTML = `<span id="presenterBanana">🍌</span><span id="widgetLabel">laden…</span>`;
     document.body.appendChild(widget);
 
     function updateWidget() {
@@ -1568,10 +1568,6 @@
       else bananaTimer = setTimeout(() => { bananaClicks = 0; }, 700);
     });
 
-    document.getElementById('widgetReset').addEventListener('click', async () => {
-      if (!confirm('Återställ till sektion 0 för alla?')) return;
-      try { await upstashSet('nb_unlock', 0); unlockLevel = 0; updateWidget(); } catch(e) {}
-    });
 
     upstashGet('nb_unlock').then(v => { unlockLevel = Math.min(7, v); updateWidget(); });
   }
