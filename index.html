@@ -906,7 +906,7 @@
     <h1>Nano Bonanza</h1>
   </div>
   <nav class="rail-nav">
-    <a class="rail-link" data-idx="0"  href="#intro">       <svg class="rail-icon" aria-hidden="true"><use href="#icon-home"/></svg><span class="rail-label">Intro</span></a>
+    <a class="rail-link" data-idx="0"  href="#intro">       <span class="rail-icon" style="font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">🍌</span><span class="rail-label">Intro</span></a>
     <a class="rail-link" data-idx="1"  href="#upplagg1">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-list"/></svg><span class="rail-label">Upplägg</span></a>
     <a class="rail-link" data-idx="2"  href="#oversikt">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-grid"/></svg><span class="rail-label">Tips</span></a>
     <a class="rail-link" data-idx="3"  href="#p1-intro">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-person"/></svg><span class="rail-label">Porträtt 1</span></a>
@@ -1405,6 +1405,8 @@
   const counter   = document.getElementById('slideCounter');
   let currentSlide = 0;
   let maxSlide = PRESENTER_MODE ? SLIDES.length - 1 : 2; // audience starts locked at Tips
+  let unlockLevel = 0;
+  let presenterAdvance = null; // set by presenter block
 
   function slideEl(idx) { return document.getElementById(SLIDES[idx]); }
 
@@ -1433,6 +1435,7 @@
     if (!PRESENTER_MODE) idx = Math.min(idx, maxSlide);
     idx = Math.max(0, Math.min(SLIDES.length - 1, idx));
     currentSlide = idx;
+    if (PRESENTER_MODE && presenterAdvance) presenterAdvance(idx);
     const el = slideEl(idx);
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     updateUI();
@@ -1527,7 +1530,6 @@
 
   // ── Presenter widget ──────────────────────────────────────────────────
   if (PRESENTER_MODE) {
-    let unlockLevel = 0;
     let bananaClicks = 0, bananaTimer;
 
     const widget = document.createElement('div');
@@ -1547,6 +1549,17 @@
         updateWidget();
       } catch(e) { alert('Upstash-fel: ' + e); }
     }
+
+    // Auto-advance unlock when navigating into a new section
+    presenterAdvance = async (idx) => {
+      const neededLevel = UNLOCK_MAP.findIndex(max => idx <= max);
+      if (neededLevel < 0 || neededLevel <= unlockLevel) return;
+      try {
+        await upstashSet('nb_unlock', neededLevel);
+        unlockLevel = neededLevel;
+        updateWidget();
+      } catch(e) {}
+    };
 
     document.getElementById('presenterBanana').addEventListener('click', () => {
       bananaClicks++;
