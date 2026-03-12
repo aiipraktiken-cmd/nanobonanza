@@ -7,7 +7,7 @@
   <script type="module" src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@100;300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:       #1a1a18;
@@ -548,6 +548,12 @@
     .cluster-img-panel + .cluster-img-panel {
       border-left: 1px solid #1e1e1c;
     }
+    .cluster-img-panel img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
     .img-panel-label {
       position: absolute;
       top: 16px;
@@ -579,6 +585,52 @@
       height: 100%;
       object-fit: cover;
       display: block;
+    }
+
+    /* New floating layout — prompt left, output right */
+    .cluster-right {
+      position: relative;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 52px 40px 40px;
+      border-left: 1px solid #1c1c1a;
+    }
+    .cluster-right > .img-panel-label {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+    }
+    .cluster-right img {
+      display: block;
+      max-height: 82vh;
+      max-width: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
+
+    /* Reference image(s) at the bottom of cluster-left */
+    .cluster-ref-imgs {
+      display: flex;
+      gap: 12px;
+      padding-top: 16px;
+    }
+    .cluster-ref-img-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .cluster-ref-img-wrap .img-panel-label {
+      position: static;
+      color: #ffffff;
+    }
+    .cluster-ref-imgs img {
+      display: block;
+      height: 130px;
+      width: auto;
+      object-fit: contain;
+      border: 1px solid #2a2a28;
     }
 
     .ex-label {
@@ -659,23 +711,34 @@
 
     /* Extra prompts */
     .extras { display: flex; flex-direction: column; gap: 8px; }
+    .extra-tip {
+      font: 400 10px/1 "JetBrains Mono", monospace;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: block;
+      margin-bottom: 6px;
+    }
     .extra {
       background: transparent;
       border: none;
       border-radius: 0;
       padding: 10px 0;
       display: flex;
+      flex-direction: column;
       align-items: flex-start;
-      gap: 14px;
+      gap: 6px;
       border-bottom: 1px solid #252523;
     }
     .extra:last-child { border-bottom: none; }
-    .extra p {
+    .extra p:not(.extra-tip) {
       font: 300 12.5px/1.75 "JetBrains Mono", monospace;
-      color: var(--muted);
+      color: var(--text);
       flex: 1;
     }
-    .extra:hover p { color: var(--text); }
 
     /* BUTTONS */
     .btn, .copy-btn {
@@ -1006,9 +1069,10 @@
   <!-- SECTION INTRO — Porträtt: studio -->
   <section id="p1-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Porträtt: studio</h2>
-    <div class="section-intro-imgs">
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
+    <div class="section-intro-imgs" style="grid-template-columns:1fr 1fr 1fr; width:min(80%,1100px);">
+      <div class="section-intro-img"><img src="images/p1/image-01.png" alt="Porträtt studio 1"></div>
+      <div class="section-intro-img"><img src="images/p1/image-02.jpg" alt="Porträtt studio 2"></div>
+      <div class="section-intro-img"><img src="images/p1/image-03.png" alt="Porträtt studio 3"></div>
     </div>
   </section>
 
@@ -1018,20 +1082,19 @@
       <div class="cluster-left">
         <p class="cluster-num">Prompt 01</p>
         <h2 class="cluster-title">Porträtt — Studio</h2>
-        <p class="ex-label">Exempelprompt</p>
-        <pre class="ex-prompt" id="p1-ex">Photorealistic studio portrait of [subject], 85mm lens, soft key light from left, subtle rim light, neutral gray seamless backdrop, cinematic skin texture, high detail, no text, no watermark.</pre>
-        <p class="ex-hint">Justera: subject, skin tone, light ratio, focal length.</p>
-        <p class="scroll-hint">↓ mall-prompt + extra</p>
+        <p class="ex-label">Bildprompt</p>
+        <pre class="ex-prompt" id="p1-ex">"High-key beauty-studioporträtt baserat på referensbilden av MÖRKHYAD KVINNA I 50-ÅRSÅLDERN, MED GRÅSPRÄNGT LOCKIGT HÅR OCH METALLISKA AVIATOR-GLASÖGON, SOM I REFERENSBILDERNA. Bibehåll alla igenkännbara ansiktsdrag. Miljö: Sömlös ljusgrå gradient bakgrund. Belysning: Stor softbox placerad RAKT OVANFÖR KAMERAN, kombinerat med extra fill-ljus som nästan helt tar bort alla skuggor. Kläder: en röd collage tröja utan text Hud: JÄMN men med med mjuk sminkad textur. Subtil professionell retusch. Perfekt för exklusiva kampanjer eller pressbilder. Kvalitet: 8K UHD-klarhet, skärpa, polerade texturer, noll linsreflexer. --ar 3:4</pre>
+        <div class="cluster-ref-imgs">
+          <div class="cluster-ref-img-wrap">
+            <span class="img-panel-label">Referensbild</span>
+            <img src="images/p1/portratt-01-ref.jpg" alt="Referensbild porträtt studio">
+          </div>
+        </div>
+        <p class="ex-hint">Justera: personbeskrivning, bakgrundsfärg, ljusposition, hudtextur.</p>
       </div>
-      <div class="cluster-images">
-        <div class="cluster-img-panel">
-          <span class="img-panel-label">Referensbild</span>
-          <div class="img-placeholder"><p>Referensbild<br>Porträtt 4:5</p></div>
-        </div>
-        <div class="cluster-img-panel">
-          <span class="img-panel-label">Output</span>
-          <div class="img-placeholder"><p>Output-bild<br>Porträtt 4:5</p></div>
-        </div>
+      <div class="cluster-right">
+        <span class="img-panel-label">Output</span>
+        <img src="images/p1/image-01.png" alt="Output porträtt studio">
       </div>
     </div>
     <div class="cluster-below">
@@ -1039,7 +1102,7 @@
         <p class="col-label">Mall-prompt</p>
         <p class="col-title">Kopiera och anpassa</p>
         <div class="copy-block">
-          <pre id="p1-tmpl">Studio portrait of [person], [camera] lens, [key light setup], [fill light setup], [background], [mood], [color palette], ultra detailed, realistic, no text, no logo.</pre>
+          <pre id="p1-tmpl">"High-key beauty-studioporträtt baserat på referensbilden av [BESKRIV PERSONEN, T.EX. MÖRKHYAD KVINNA I 50-ÅRSÅLDERN, MED GRÅSPRÄNGT LOCKIGT HÅR OCH METALLISKA AVIATOR-GLASÖGON]. Bibehåll igenkännbara ansiktsdrag, hudtextur och unika detaljer. Miljö: Sömlös [FÄRG PÅ BAKGRUNDEN, T.EX. VIT] bakgrund. Belysning: Stor softbox placerad [LJUSPOSITION, T.EX. RAKT OVANFÖR KAMERAN], kombinerat med extra fill-ljus som nästan helt tar bort alla skuggor. Hud: [HUDENS UTSEENDE, T.EX. JÄMN OCH GLOWIG] men med [TEXTUR TYP, T.EX. NATURLIG] textur. Subtil professionell retusch. Perfekt för exklusiva kampanjer eller pressbilder. Kvalitet: 8K UHD-klarhet, skärpa, polerade texturer, noll linsreflexer."</pre>
           <button class="copy-btn" data-copy="p1-tmpl">Kopiera mall</button>
         </div>
       </div>
@@ -1047,16 +1110,14 @@
         <p class="col-label">Extra prompts</p>
         <div class="extras">
           <div class="extra">
-            <p id="p1-e1">High-key beauty portrait, white cyclorama, soft diffused light, editorial makeup, clean minimal feel.</p>
+            <p class="extra-tip">Tips: Använd den nya studiobilden som referensbild</p>
+            <p id="p1-e1">En professionell 3x3 fotogrid (kontaktkarta med 7 paneler) med en konsekvent karaktär baserad på referensbilden. Varje ruta visar en olika huvudbild: olika vinklar inklusive rakt framifrån, svag profil, närbildsdetaljer och tre-fjärdedelsvyer. En blandning av professionella uttryck: självsäkert leende, neutral hållning, roligt ansikte, öppet skratt och eftertänksam blick. Blandning av kläder: texturerad röd collegetröja, krispig vit skjorta, designerjacka med läderdetaljer, strukturerad svart kavaj, avslappnad svart hoodie. Högkvalitativ studiobelysning med mjukt kantljus, 85mm objektiv för smickrande porträttkompression, ren, suddig kontorsbakgrund med subtilt djup. Skarpt fokus på ögonen, ultrarealistiska hudtexturer, 8k-upplösning, professionell stil för företagsfotografering. Ändra inte ansiktet och ansiktsdragen.</p>
             <button class="copy-btn" data-copy="p1-e1">↗</button>
           </div>
           <div class="extra">
-            <p id="p1-e2">Low-key dramatic portrait, pure black background, hard side light, high contrast shadows, intense gaze.</p>
+            <p class="extra-tip">Tips: Använd den nya studiobilden som referensbild och en valfri modellbild, tex från Boozt eller modesajt.</p>
+            <p id="p1-e2">Skapa ett professionellt porträtt av studiokvalitet av personen från den första referensbilden (), och bibehåll dennes distinkta ansiktsdrag, vilda lockiga grå hår och pilotglasögon i metall. Personen ska posera på ett sätt som matchar hållningen från den andra referensbilden (). Belysningen är ljus och jämn. Bakgrunden är en ren, minimalistisk och benvit studiomiljö, något ur fokus. Bilden ska ha ultrarealistiska texturer, skarpt fokus på ögonen och en sofistikerad, exklusiv kommersiell estetik, renderad i 8k-upplösning. Behåll bildförhållandet och de distinkta ansiktsdragen.</p>
             <button class="copy-btn" data-copy="p1-e2">↗</button>
-          </div>
-          <div class="extra">
-            <p id="p1-e3">Fine art portrait, Rembrandt lighting, 50mm, shallow depth of field, desaturated warm tones, painterly texture.</p>
-            <button class="copy-btn" data-copy="p1-e3">↗</button>
           </div>
         </div>
       </div>
@@ -1064,11 +1125,11 @@
     <div class="next-link"><a class="btn" href="#p2">Nästa prompt →</a></div>
   </section>
 
-  <!-- SECTION INTRO — Porträtt: miljö -->
+  <!-- SECTION INTRO — Porträtt: Redaktionellt -->
   <section id="p2-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Porträtt: miljö</h2>
+    <h2 class="section-intro-title">Porträtt: Redaktionellt</h2>
     <div class="section-intro-imgs">
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
+      <div class="section-intro-img"><img src="images/p2/image-01.jpg" alt="Porträtt redaktionellt 1"></div>
       <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
     </div>
   </section>
@@ -1078,9 +1139,9 @@
     <div class="cluster-above">
       <div class="cluster-left">
         <p class="cluster-num">Prompt 02</p>
-        <h2 class="cluster-title">Porträtt — Miljö</h2>
-        <p class="ex-label">Exempelprompt</p>
-        <pre class="ex-prompt" id="p2-ex">Environmental portrait of [subject] in [location], natural window light, candid stance, documentary mood, 35mm lens perspective, subtle grain, realistic color grading.</pre>
+        <h2 class="cluster-title">Porträtt — Redaktionellt</h2>
+        <p class="ex-label">Bildprompt</p>
+        <pre class="ex-prompt" id="p2-ex">A professional lifestyle portrait of a woman with short styled cruly hair inspired by the composition and style of lifestyle magazine. She is wearing a black stylish hoodie layered under a stylish trench coat. The woman stands in a relaxed three-quarter pose in a gritty urban street setting. Her gaze looks outside the image and in one hand she holds a take away coffee. The background features a textured wall with posters and graffiti, with the blurred silhouettes of bicycles parked nearby. High-fidelity textures, shot on a 35mm lens, natural daylight with a soft warm tone, shallow depth of field creating a smooth bokeh effect. Contemporary, urban, and authentic.</pre>
         <p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
         <p class="scroll-hint">↓ mall-prompt + extra</p>
       </div>
@@ -1100,7 +1161,7 @@
         <p class="col-label">Mall-prompt</p>
         <p class="col-title">Kopiera och anpassa</p>
         <div class="copy-block">
-          <pre id="p2-tmpl">Environmental portrait of [person], in [scene], [lighting], [camera angle], [lens], [emotion], [color style], natural details, realistic texture, no text.</pre>
+          <pre id="p2-tmpl">Ultrarealistiskt lifestyle-porträtt av [BESKRIV PERSON OCH HÅR], stil [VOGUE ELLER ANNAT MAGASIN]. Bär [INNERPLAGG] under [YTTERPLAGG]. [POSERING] i [MILJÖ]. Blick [BLICKENS RIKTNING OCH KÄNSLA]. Håller [OBJEKT] med [TYP AV GREPP]. Naturlig hudtextur. Badad i [LJUSSÄTTNING OCH ATMOSFÄR]. Bakgrund djupt suddig (bokeh), [DETALJER I BAKGRUNDEN]. Fotograferad med [LINS OCH BLÄNDARE], filmkornighet, hög textur. [UTSNITT, T.EX. HALVKROPP], [BILDFÖRHÅLLANDE].</pre>
           <button class="copy-btn" data-copy="p2-tmpl">Kopiera mall</button>
         </div>
       </div>
