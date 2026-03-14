@@ -485,6 +485,39 @@
       object-fit: cover;
       display: block;
     }
+    .section-intro-imgs.bento {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      position: relative;
+      padding-left: calc(50% + 6px);
+      box-sizing: border-box;
+    }
+    .section-intro-imgs.bento .bento-col-left {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: calc(50% - 6px);
+      overflow: hidden;
+    }
+    .section-intro-imgs.bento .bento-col-left img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .section-intro-imgs.bento .bento-col-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .section-intro-imgs.bento .bento-col-right img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
     .section-intro-img-ph {
       position: absolute;
       inset: 0;
@@ -773,6 +806,34 @@
       border-color: var(--text);
       color: var(--text);
     }
+    @keyframes padlet-shake {
+      0%, 100%  { transform: translateX(0) rotate(0deg); }
+      78%       { transform: translateX(0) rotate(0deg); }
+      80%       { transform: translateX(-4px) rotate(-1.5deg); }
+      82%       { transform: translateX(4px) rotate(1.5deg); }
+      84%       { transform: translateX(-4px) rotate(-1deg); }
+      86%       { transform: translateX(4px) rotate(1deg); }
+      88%       { transform: translateX(-2px) rotate(-.5deg); }
+      90%       { transform: translateX(2px) rotate(.5deg); }
+      92%       { transform: translateX(0) rotate(0deg); }
+    }
+    .btn.padlet-btn {
+      border-color: #e06b8b;
+      color: #e06b8b;
+      margin-top: 80px;
+      animation: padlet-shake 4.3s ease-in-out infinite;
+    }
+    .btn.padlet-btn:hover {
+      border-color: #f08baa;
+      color: #f08baa;
+      animation: none;
+    }
+    .btn.padlet-btn:nth-of-type(1) { animation-delay: 0s;    animation-duration: 4.3s; }
+    .btn.padlet-btn:nth-of-type(2) { animation-delay: -1.7s; animation-duration: 5.1s; }
+    .btn.padlet-btn:nth-of-type(3) { animation-delay: -3.2s; animation-duration: 4.8s; }
+    .btn.padlet-btn:nth-of-type(4) { animation-delay: -0.9s; animation-duration: 5.6s; }
+    .btn.padlet-btn:nth-of-type(5) { animation-delay: -2.4s; animation-duration: 4.1s; }
+    .btn.padlet-btn:nth-of-type(6) { animation-delay: -4.0s; animation-duration: 5.9s; }
 
     .next-link {
       display: flex;
@@ -980,8 +1041,8 @@
     <a class="rail-link" data-idx="8"  href="#prod">       <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">03 · Produkt</span></a>
     <a class="rail-link" data-idx="9"  href="#stock-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">Stockbilder</span></a>
     <a class="rail-link" data-idx="10" href="#stock">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">04 · Stockbilder</span></a>
-    <a class="rail-link" data-idx="11" href="#red-intro">  <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">Redaktionellt</span></a>
-    <a class="rail-link" data-idx="12" href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">05 · Redaktionellt</span></a>
+    <a class="rail-link" data-idx="11" href="#red-intro">  <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">Reklam</span></a>
+    <a class="rail-link" data-idx="12" href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">05 · Reklam</span></a>
     <a class="rail-link" data-idx="13" href="#viral-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">Viralt</span></a>
     <a class="rail-link" data-idx="14" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">06 · Viralt</span></a>
     <a class="rail-link" data-idx="15" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
@@ -1105,6 +1166,7 @@
           <pre id="p1-tmpl">"High-key beauty-studioporträtt baserat på referensbilden av [BESKRIV PERSONEN, T.EX. MÖRKHYAD KVINNA I 50-ÅRSÅLDERN, MED GRÅSPRÄNGT LOCKIGT HÅR OCH METALLISKA AVIATOR-GLASÖGON]. Bibehåll igenkännbara ansiktsdrag, hudtextur och unika detaljer. Miljö: Sömlös [FÄRG PÅ BAKGRUNDEN, T.EX. VIT] bakgrund. Belysning: Stor softbox placerad [LJUSPOSITION, T.EX. RAKT OVANFÖR KAMERAN], kombinerat med extra fill-ljus som nästan helt tar bort alla skuggor. Hud: [HUDENS UTSEENDE, T.EX. JÄMN OCH GLOWIG] men med [TEXTUR TYP, T.EX. NATURLIG] textur. Subtil professionell retusch. Perfekt för exklusiva kampanjer eller pressbilder. Kvalitet: 8K UHD-klarhet, skärpa, polerade texturer, noll linsreflexer."</pre>
           <button class="copy-btn" data-copy="p1-tmpl">Kopiera mall</button>
         </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
       </div>
       <div class="cluster-col">
         <p class="col-label">Extra prompts</p>
@@ -1125,9 +1187,9 @@
     <div class="next-link"><a class="btn" href="#p2">Nästa prompt →</a></div>
   </section>
 
-  <!-- SECTION INTRO — Porträtt: Redaktionellt -->
+  <!-- SECTION INTRO — Porträtt: Reklam -->
   <section id="p2-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Porträtt: Redaktionellt</h2>
+    <h2 class="section-intro-title">Porträtt: Reklam</h2>
     <div class="section-intro-imgs" style="grid-template-columns:1fr 1fr 1fr; width:min(80%,1100px);">
       <div class="section-intro-img"><img src="images/p2/image-01.jpg" alt="Porträtt redaktionellt 1"></div>
       <div class="section-intro-img"><img src="images/p2/image-02.jpg" alt="Porträtt redaktionellt 2"></div>
@@ -1140,13 +1202,13 @@
     <div class="cluster-above">
       <div class="cluster-left">
         <p class="cluster-num">Prompt 02</p>
-        <h2 class="cluster-title">Porträtt — Redaktionellt</h2>
+        <h2 class="cluster-title">Porträtt — Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="p2-ex">A professional lifestyle portrait of a woman with short styled cruly hair inspired by the composition and style of lifestyle magazine. She is wearing a black stylish hoodie layered under a stylish trench coat. The woman stands in a relaxed three-quarter pose in a gritty urban street setting. Her gaze looks outside the image and in one hand she holds a take away coffee. The background features a textured wall with posters and graffiti, with the blurred silhouettes of bicycles parked nearby. High-fidelity textures, shot on a 35mm lens, natural daylight with a soft warm tone, shallow depth of field creating a smooth bokeh effect. Contemporary, urban, and authentic.</pre>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
-            <div class="img-placeholder"><p>Referensbild</p></div>
+            <img src="images/p2/ref-image-01.png" alt="Referensbild">
           </div>
         </div>
 <p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
@@ -1165,21 +1227,20 @@
           <pre id="p2-tmpl">Ultrarealistiskt lifestyle-porträtt av [BESKRIV PERSON OCH HÅR], stil [VOGUE ELLER ANNAT MAGASIN]. Bär [INNERPLAGG] under [YTTERPLAGG]. [POSERING] i [MILJÖ]. Blick [BLICKENS RIKTNING OCH KÄNSLA]. Håller [OBJEKT] med [TYP AV GREPP]. Naturlig hudtextur. Badad i [LJUSSÄTTNING OCH ATMOSFÄR]. Bakgrund djupt suddig (bokeh), [DETALJER I BAKGRUNDEN]. Fotograferad med [LINS OCH BLÄNDARE], filmkornighet, hög textur. [UTSNITT, T.EX. HALVKROPP], [BILDFÖRHÅLLANDE].</pre>
           <button class="copy-btn" data-copy="p2-tmpl">Kopiera mall</button>
         </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
       </div>
       <div class="cluster-col">
         <p class="col-label">Extra prompts</p>
         <div class="extras">
           <div class="extra">
-            <p id="p2-e1">Street portrait at golden hour, warm backlight, urban texture, spontaneous expression, shallow DoF.</p>
+            <p class="extra-tip">Tips: Använd studiobilden/collaget</p>
+            <p id="p2-e1">Livsstilsporträtt i redaktionell stil av en [beskriv person här] på ett stilfullt café, naturligt sidoljus från fönster, varma interiörljus som glöder i bakgrunden, ärlig hudtextur med naturliga skavanker, [kläder], kort skärpedjup som separerar motivet från bakgrunden, avslappnad sittande pose med armbågarna på bordet och en kaffekopp delvis i bild, fångad mitt i ett [ansiktsuttryck], berättande magasin-känsla. 8K.</p>
             <button class="copy-btn" data-copy="p2-e1">↗</button>
           </div>
           <div class="extra">
-            <p id="p2-e2">Café portrait by rainy window, soft overcast light, intimate editorial framing, warm tones.</p>
+            <p class="extra-tip">Tips: Använd studiobilden/collaget</p>
+            <p id="p2-e2">Ett redaktionellt porträtt som blandar en paneldiskussion och en keynote: En talare står vid ett enkelt bord mitt i ett svar, fotograferad från publikens POV (diagonalt framifrån) och visar en suddig panelskuldra till vänster och en skärm till höger. Skärmen i bakgrunden visar texten "[Skriv din text här, t.ex. "Nano Bonanza!"]" på en bakgrundsbild (motiv tex av tokiga bananer som fyller skärmen). Subjektet är klädd i stilrena jeans och en [beskriv färg/typ av jacka, t.ex. svart kavaj], under den en [beskriv färg/typ av t-shirt, t.ex. gul t-shirt] med en [beskriv motiv på t-shirten, t.ex. banan]. Siluetter av publiken i förgrunden bidrar till intimitet. Balanserad scenbelysning (frontljus och takbelysning) håller huden naturlig med mikrodetaljer från referensen, ingen glans. Händerna är livliga (en på bordet, en gestikulerar), uttrycket är eftertänksamt mitt i en mening, texturen på jeans/kavaj är krispig. Kall-neutral färgpalett, subtil vinjettering, magasin-reportagestil för hållbarhets- eller teknikevenemang.</p>
             <button class="copy-btn" data-copy="p2-e2">↗</button>
-          </div>
-          <div class="extra">
-            <p id="p2-e3">Workshop portrait in industrial loft, practical lamp pools, gritty documentary feel, 28mm wide.</p>
-            <button class="copy-btn" data-copy="p2-e3">↗</button>
           </div>
         </div>
       </div>
@@ -1190,9 +1251,10 @@
   <!-- SECTION INTRO — Produkt -->
   <section id="prod-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Produkt</h2>
-    <div class="section-intro-imgs">
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
+    <div class="section-intro-imgs" style="grid-template-columns:1fr 1fr 1fr; width:min(80%,1100px);">
+      <div class="section-intro-img"><img src="images/prod/image-01.jpeg" alt="Produktbild 1"></div>
+      <div class="section-intro-img"><img src="images/prod/image-02.jpeg" alt="Produktbild 2"></div>
+      <div class="section-intro-img"><img src="images/prod/image-03.jpeg" alt="Produktbild 3"></div>
     </div>
   </section>
 
@@ -1203,7 +1265,7 @@
         <p class="cluster-num">Prompt 03</p>
         <h2 class="cluster-title">Produkt</h2>
         <p class="ex-label">Bildprompt</p>
-        <pre class="ex-prompt" id="prod-ex">Commercial product shot of [product], floating composition, controlled softbox lighting, crisp specular highlights, minimal white backdrop, premium catalog style, ultra sharp.</pre>
+        <pre class="ex-prompt" id="prod-ex">Fotorealistisk bild av [Bosch hammare med grönt skaft] svävande ståendes några centimeter över en osynlig yta, mjuk diffus skugga direkt under produkten för realism, ren ljus bakgrund med diskret tvåtons‑gradient, jämn studiobelysning, skarpa detaljer i logotyp och etikett, modern DTC‑estetik optimerad som hero‑bild på e‑handelssida</pre>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1214,7 +1276,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <div class="img-placeholder"><p>Output</p></div>
+        <img src="images/prod/image-01.jpeg" alt="Output">
       </div>
 </div>
     </div>
@@ -1223,24 +1285,23 @@
         <p class="col-label">Mall-prompt</p>
         <p class="col-title">Kopiera och anpassa</p>
         <div class="copy-block">
-          <pre id="prod-tmpl">Hero product shot of [item], [background style], [lighting setup], [camera angle], [surface], [brand mood], clean commercial look, no people, no text.</pre>
+          <pre id="prod-tmpl">Fotorealistisk bild av [referensbild] svävande några centimeter över en osynlig yta, mjuk diffus skugga direkt under produkten för realism, ren ljus bakgrund med diskret tvåtons‑gradient, jämn studiobelysning, skarpa detaljer i logotyp och etikett, modern DTC‑estetik optimerad som hero‑bild på e‑handelssida, 8K</pre>
           <button class="copy-btn" data-copy="prod-tmpl">Kopiera mall</button>
         </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
       </div>
       <div class="cluster-col">
         <p class="col-label">Extra prompts</p>
         <div class="extras">
           <div class="extra">
-            <p id="prod-e1">Skincare bottle on wet acrylic surface, soft reflections, pastel gradient background, cosmetic elegance.</p>
+            <p class="extra-tip">Tips: Använd en stilren produktbild som referens</p>
+            <p id="prod-e1">Extrem närbild på en [PRODUKT: t.ex. matt svart Bosch-hammare / Apple iPhone i titan / flaska med lyxig parfym] mot en [BAKGRUND: t.ex. rosa fluffig päls / minimalistisk rå betong / mörkgrå matt sammet], makrofoto som lyfter fram [DETALJER: t.ex. kornet i gummigreppet / borstlinjerna i stålet / de naturliga läderporerna], [LJUSSÄTTNING: t.ex. mjukt sidoljus som accentuerar ytan / dramatiskt kallt frontljus / mjuk naturlig bakbelysning], extrem skärpa på [FOKUSPUNKT: t.ex. den ingraverade logotypen / linsen på kameran / klockans visare], resten faller mjukt ur fokus, teknisk men estetisk premium-känsla. E-commerce.</p>
             <button class="copy-btn" data-copy="prod-e1">↗</button>
           </div>
           <div class="extra">
-            <p id="prod-e2">Tech headphones suspended mid-air, dramatic rim light, matte charcoal backdrop, shadow plane below.</p>
+            <p class="extra-tip">Tips: Använd en stilren produktbild som referens</p>
+            <p id="prod-e2">Minimalistisk knolling-layout ovanifrån av en [HUVUDPRODUKT: t.ex. Bosch-hammare med grönt skaft / vintage läderkamera / modern gaming-mus] tillsammans med dess tillbehör: [TILLBEHÖR: t.ex. spikar, tumstock och blyertspenna / filmrullar, linslock och läderrem / extra knappar, USB-kabel och mikrofiberduk] arrangerat i perfekt grid, [BAKGRUND: t.ex. rosa prickig yta / ren gul bakgrund med små bananer / mörkgrön matt yta med subtil textur], [LJUSSÄTTNING: t.ex. mjuka skuggor som ger djup / knivskarpt dagsljus / diffust studioljus utan skuggor], clean DTC-estetik, alla objekt perfekt uppradade för en stilren produktöversikt, 8K.</p>
             <button class="copy-btn" data-copy="prod-e2">↗</button>
-          </div>
-          <div class="extra">
-            <p id="prod-e3">Sneaker close-up macro, directional hard light, textured concrete base, brand colorway accent.</p>
-            <button class="copy-btn" data-copy="prod-e3">↗</button>
           </div>
         </div>
       </div>
@@ -1251,9 +1312,12 @@
   <!-- SECTION INTRO — Stockbilder -->
   <section id="stock-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Stockbilder</h2>
-    <div class="section-intro-imgs">
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
+    <div class="section-intro-imgs bento">
+      <div class="bento-col-left"><img src="images/stock/image-01.png" alt="Stockbild 1"></div>
+      <div class="bento-col-right">
+        <img src="images/stock/image-02.jpeg" alt="Stockbild 2">
+        <img src="images/stock/image-03.jpeg" alt="Stockbild 3">
+      </div>
     </div>
   </section>
 
@@ -1275,7 +1339,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <div class="img-placeholder"><p>Output</p></div>
+        <img src="images/stock/image-03.jpeg" alt="Output">
       </div>
 </div>
     </div>
@@ -1287,6 +1351,7 @@
           <pre id="stock-tmpl">Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.</pre>
           <button class="copy-btn" data-copy="stock-tmpl">Kopiera mall</button>
         </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
       </div>
       <div class="cluster-col">
         <p class="col-label">Extra prompts</p>
@@ -1309,9 +1374,9 @@
     <div class="next-link"><a class="btn" href="#red">Nästa prompt →</a></div>
   </section>
 
-  <!-- SECTION INTRO — Redaktionellt -->
+  <!-- SECTION INTRO — Reklam -->
   <section id="red-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Redaktionellt</h2>
+    <h2 class="section-intro-title">Reklam</h2>
     <div class="section-intro-imgs">
       <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
       <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
@@ -1323,7 +1388,7 @@
     <div class="cluster-above">
       <div class="cluster-left">
         <p class="cluster-num">Prompt 05</p>
-        <h2 class="cluster-title">Redaktionellt</h2>
+        <h2 class="cluster-title">Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="red-ex">Editorial photo of [scene], on-location reportage style, available light, human storytelling, balanced composition, subtle film grain, magazine-ready realism, no text overlays.</pre>
                 <div class="cluster-ref-imgs">
@@ -1348,6 +1413,7 @@
           <pre id="red-tmpl">Editorial reportage photo of [subject/event] in [location], [lighting source], [shot type], [tone], realistic documentary style, no text overlays.</pre>
           <button class="copy-btn" data-copy="red-tmpl">Kopiera mall</button>
         </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
       </div>
       <div class="cluster-col">
         <p class="col-label">Extra prompts</p>
@@ -1409,6 +1475,7 @@
           <pre id="viral-tmpl">Create a viral social image of [idea], featuring [unexpected element], [camera style], [color strategy], clear emotional hook, platform-ready composition, no text.</pre>
           <button class="copy-btn" data-copy="viral-tmpl">Kopiera mall</button>
         </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
       </div>
       <div class="cluster-col">
         <p class="col-label">Extra prompts</p>
@@ -1474,7 +1541,7 @@
 
   // unlockLevel → max accessible slide index
   const UNLOCK_MAP   = [2, 4, 6, 8, 10, 12, 14, 15];
-  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Stockbilder','Redaktionellt','Viralt','Outro'];
+  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Stockbilder','Reklam','Viralt','Outro'];
 
   // ── Slide system ──────────────────────────────────────────────────────
   const SLIDES    = ['intro','upplagg1','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','stock-intro','stock','red-intro','red','viral-intro','viral','outro'];
@@ -1667,7 +1734,7 @@
     ['Porträtt 2 (Miljö):',   'p2-tmpl'],
     ['Produkt:',               'prod-tmpl'],
     ['Stockbilder:',           'stock-tmpl'],
-    ['Redaktionellt:',         'red-tmpl'],
+    ['Reklam:',         'red-tmpl'],
     ['Viralt:',                'viral-tmpl'],
   ];
   const allTmplsEl = document.getElementById('all-tmpls');
@@ -1687,6 +1754,50 @@
       btn.classList.add('ok'); btn.textContent = '✓';
       setTimeout(() => { btn.classList.remove('ok'); btn.textContent = orig; }, 1400);
     });
+  });
+
+  // 🍌 Banana fireworks on shake
+  function burstBananas(btn) {
+    const rect = btn.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height / 2;
+    const BANANAS = ['🍌','🍌','🍌','🍌','🍌','🍌','🍌','🍌','🍌','🍌'];
+    BANANAS.forEach((emoji, i) => {
+      const el = document.createElement('span');
+      el.textContent = emoji;
+      const size = 14 + Math.random() * 12;
+      el.style.cssText = `position:fixed;left:${cx}px;top:${cy}px;font-size:${size}px;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);will-change:transform,opacity;`;
+      document.body.appendChild(el);
+
+      const angle = (i / BANANAS.length) * Math.PI * 2 + (Math.random() - 0.5) * 0.7;
+      const speed = 90 + Math.random() * 110;
+      const vx = Math.cos(angle) * speed;
+      const vy = Math.sin(angle) * speed - 40;
+      const spin = (Math.random() - 0.5) * 720;
+      const duration = 700 + Math.random() * 500;
+      let start = null;
+
+      function frame(t) {
+        if (!start) start = t;
+        const p = (t - start) / duration;
+        if (p >= 1) { el.remove(); return; }
+        const x = cx + vx * p;
+        const y = cy + vy * p + 200 * p * p;
+        const rot = spin * p;
+        const scale = 1 - p * 0.3;
+        const opacity = p < 0.6 ? 1 : 1 - (p - 0.6) / 0.4;
+        el.style.left = x + 'px';
+        el.style.top = y + 'px';
+        el.style.opacity = opacity;
+        el.style.transform = `translate(-50%,-50%) rotate(${rot}deg) scale(${scale})`;
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    });
+  }
+
+  document.querySelectorAll('.btn.padlet-btn').forEach(btn => {
+    btn.addEventListener('animationiteration', () => burstBananas(btn));
   });
 </script>
 </body>
