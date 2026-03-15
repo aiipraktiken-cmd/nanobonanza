@@ -85,7 +85,7 @@
     .rail-brand h1 {
       font-family: "Outfit", sans-serif;
       font-size: 17px;
-      font-weight: 400;
+      font-weight: 100;
       line-height: 1.2;
       margin-top: 5px;
     }
@@ -451,6 +451,7 @@
     /* ── SECTION INTRO ── */
     .section-intro {
       height: 100vh;
+      overflow: hidden;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -483,6 +484,197 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      display: block;
+    }
+    .section-intro-imgs.masonry {
+      display: grid;
+      grid-template-columns: 1.65fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 10px;
+      width: min(74%, 1000px);
+      height: calc(100vh - 290px);
+      overflow: hidden;
+    }
+    .section-intro-imgs.masonry .section-intro-img {
+      overflow: hidden;
+      border-radius: 3px;
+      min-height: 0;
+    }
+    .section-intro-imgs.masonry .section-intro-img:first-child {
+      grid-row: span 2;
+    }
+    .section-intro-imgs.masonry .section-intro-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center;
+      display: block;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .section-intro-imgs.masonry .section-intro-img:hover img {
+      transform: scale(1.04);
+    }
+    .section-intro-img.has-hover {
+      position: relative;
+    }
+    .section-intro-img.has-hover .img-hover {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 0.45s ease;
+    }
+    .section-intro-img.has-hover:hover .img-hover {
+      opacity: 1;
+    }
+    .section-intro-img.has-hover:hover .img-default {
+      transform: none;
+    }
+
+    /* ── PORTRÄTT STUDIO – 3 likbreda celler med korrekt aspect-ratio ── */
+    #p1-intro .section-intro-imgs.masonry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 10px;
+      width: min(76%, 895px);
+      height: auto;
+      max-height: calc(100vh - 280px);
+      overflow: hidden;
+    }
+    #p1-intro .section-intro-imgs.masonry .section-intro-img {
+      aspect-ratio: 2 / 3;
+      min-height: unset;
+    }
+    #p1-intro .section-intro-imgs.masonry .section-intro-img:first-child {
+      grid-row: unset;
+    }
+    #p1-intro .section-intro-imgs.masonry .section-intro-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── PORTRÄTT REDAKTIONELLT – masonry: portrait vänster, landscape+square höger ── */
+    #p2-intro .section-intro-imgs {
+      display: grid;
+      grid-template-columns: 2fr 3fr;
+      grid-template-rows: 3fr 4fr;
+      gap: 8px;
+      height: calc(100vh - 290px);
+      width: min(86%, 1020px);
+    }
+    #p2-intro .section-intro-imgs .section-intro-img {
+      aspect-ratio: unset;
+      min-height: 0;
+      overflow: hidden;
+      border-radius: 3px;
+    }
+    #p2-intro .section-intro-imgs .section-intro-img:nth-child(1) {
+      grid-column: 1;
+      grid-row: 1 / span 2;
+    }
+    #p2-intro .section-intro-imgs .section-intro-img:nth-child(2) {
+      grid-column: 2;
+      grid-row: 1;
+    }
+    #p2-intro .section-intro-imgs .section-intro-img:nth-child(3) {
+      grid-column: 2;
+      grid-row: 2;
+    }
+    #p2-intro .section-intro-imgs .section-intro-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* ── PRODUKT – 3 lika kolumner, exakt 4:5 ratio, noll gaps ── */
+    #prod-intro .section-intro-imgs.masonry {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto;
+      gap: 10px;
+      width: min(83%, 1020px);
+      height: auto;
+      max-height: calc(100vh - 270px);
+    }
+    #prod-intro .section-intro-imgs.masonry .section-intro-img {
+      aspect-ratio: 4 / 5;
+      min-height: unset;
+    }
+    #prod-intro .section-intro-imgs.masonry .section-intro-img:first-child {
+      grid-row: unset;
+    }
+    #prod-intro .section-intro-imgs.masonry .section-intro-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Reklam bento grid */
+    .reklam-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.6fr;
+      gap: 10px;
+      width: min(88%, 1200px);
+      align-items: start;
+    }
+    .reklam-main {
+      width: 100%;
+    }
+    .reklam-main img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .reklam-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .reklam-stack-top {
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      gap: 10px;
+      align-items: stretch;
+    }
+    .reklam-cell {
+      overflow: hidden;
+    }
+    .reklam-cell img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .reklam-wide img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    /* Viral grid */
+    .viral-grid {
+      columns: 2;
+      column-gap: 10px;
+      width: min(88%, 1100px);
+    }
+    .viral-wide {
+      break-inside: avoid;
+      margin-bottom: 10px;
+    }
+    .viral-sq {
+      break-inside: avoid;
+      margin-bottom: 10px;
+    }
+    .viral-wide img,
+    .viral-sq img {
+      width: 100%;
+      height: auto;
       display: block;
     }
     .section-intro-imgs.bento {
@@ -841,6 +1033,87 @@
       padding: 20px 72px 36px;
     }
 
+    /* BONUS section */
+    .bonus-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      padding: 60px 40px;
+      min-height: 100vh;
+      background: #0d0d0b;
+    }
+    .bonus-title {
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      font-weight: 100;
+      color: #fff;
+      letter-spacing: 0.05em;
+      text-align: center;
+    }
+    .bonus-grid {
+      columns: 2;
+      column-gap: 16px;
+      width: min(92%, 1200px);
+    }
+    .bonus-card {
+      break-inside: avoid;
+      margin-bottom: 16px;
+      position: relative;
+      overflow: hidden;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .bonus-card img {
+      width: 100%;
+      height: auto;
+      display: block;
+      transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .bonus-card:hover img {
+      transform: scale(1.04);
+    }
+    .bonus-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.82);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 20px;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .bonus-card:hover .bonus-overlay {
+      opacity: 1;
+    }
+    .bonus-prompt-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      color: #e8e8e2;
+      margin: 0 0 12px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 8;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+    .bonus-copy-btn {
+      align-self: flex-start;
+      background: #fff;
+      color: #0d0d0b;
+      border: none;
+      padding: 6px 14px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .bonus-copy-btn:hover { background: #d4f04a; }
+    .bonus-copy-btn.copied { background: #4ade80; }
     /* OUTRO — collage */
     .outro-collage {
       position: relative;
@@ -873,7 +1146,7 @@
       position: relative;
       z-index: 2;
       font-family: "Outfit", sans-serif;
-      font-weight: 700;
+      font-weight: 100;
       font-size: clamp(3rem, 8vw, 7rem);
       letter-spacing: -.03em;
       color: #fff;
@@ -917,7 +1190,7 @@
     .outro-card h3 {
       font-family: "Outfit", sans-serif;
       font-size: 1rem;
-      font-weight: 400;
+      font-weight: 100;
       margin-bottom: 16px;
     }
     .outro .checklist { display: flex; flex-direction: column; gap: 10px; }
@@ -1045,7 +1318,8 @@
     <a class="rail-link" data-idx="12" href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">05 · Reklam</span></a>
     <a class="rail-link" data-idx="13" href="#viral-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">Viralt</span></a>
     <a class="rail-link" data-idx="14" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">06 · Viralt</span></a>
-    <a class="rail-link" data-idx="15" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
+    <a class="rail-link" data-idx="15" href="#bonus">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Bonus</span></a>
+    <a class="rail-link" data-idx="16" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
   </nav>
 </aside>
 
@@ -1130,10 +1404,13 @@
   <!-- SECTION INTRO — Porträtt: studio -->
   <section id="p1-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Porträtt: studio</h2>
-    <div class="section-intro-imgs" style="grid-template-columns:1fr 1fr 1fr; width:min(80%,1100px);">
+    <div class="section-intro-imgs masonry">
       <div class="section-intro-img"><img src="images/p1/image-01.png" alt="Porträtt studio 1"></div>
-      <div class="section-intro-img"><img src="images/p1/image-02.jpg" alt="Porträtt studio 2"></div>
-      <div class="section-intro-img"><img src="images/p1/image-03.png" alt="Porträtt studio 3"></div>
+      <div class="section-intro-img"><img src="images/p1/image-02.png" alt="Porträtt studio 2"></div>
+      <div class="section-intro-img has-hover">
+        <img class="img-default" src="images/p1/image-03.png" alt="Porträtt studio 3">
+        <img class="img-hover" src="images/p1/image-03-02.png" alt="Porträtt studio 3 hover">
+      </div>
     </div>
   </section>
 
@@ -1187,13 +1464,13 @@
     <div class="next-link"><a class="btn" href="#p2">Nästa prompt →</a></div>
   </section>
 
-  <!-- SECTION INTRO — Porträtt: Reklam -->
+  <!-- SECTION INTRO — Porträtt: Redaktionellt -->
   <section id="p2-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Porträtt: Reklam</h2>
-    <div class="section-intro-imgs" style="grid-template-columns:1fr 1fr 1fr; width:min(80%,1100px);">
-      <div class="section-intro-img"><img src="images/p2/image-01.jpg" alt="Porträtt redaktionellt 1"></div>
-      <div class="section-intro-img"><img src="images/p2/image-02.jpg" alt="Porträtt redaktionellt 2"></div>
-      <div class="section-intro-img"><img src="images/p2/image-3.jpeg" alt="Porträtt redaktionellt 3"></div>
+    <h2 class="section-intro-title">Porträtt: Redaktionellt</h2>
+    <div class="section-intro-imgs">
+      <div class="section-intro-img"><img src="images/p2/image-01.png" alt="Porträtt redaktionellt 1"></div>
+      <div class="section-intro-img"><img src="images/p2/image-02.png" alt="Porträtt redaktionellt 2"></div>
+      <div class="section-intro-img"><img src="images/p2/image-03.png" alt="Porträtt redaktionellt 3"></div>
     </div>
   </section>
 
@@ -1215,7 +1492,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <img src="images/p2/image-01.jpg" alt="Output">
+        <img src="images/p2/image-01.png" alt="Output">
       </div>
 </div>
     </div>
@@ -1251,7 +1528,7 @@
   <!-- SECTION INTRO — Produkt -->
   <section id="prod-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Produkt</h2>
-    <div class="section-intro-imgs" style="grid-template-columns:1fr 1fr 1fr; width:min(80%,1100px);">
+    <div class="section-intro-imgs masonry">
       <div class="section-intro-img"><img src="images/prod/image-01.jpeg" alt="Produktbild 1"></div>
       <div class="section-intro-img"><img src="images/prod/image-02.jpeg" alt="Produktbild 2"></div>
       <div class="section-intro-img"><img src="images/prod/image-03.jpeg" alt="Produktbild 3"></div>
@@ -1312,12 +1589,10 @@
   <!-- SECTION INTRO — Stockbilder -->
   <section id="stock-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Stockbilder</h2>
-    <div class="section-intro-imgs bento">
-      <div class="bento-col-left"><img src="images/stock/image-01.png" alt="Stockbild 1"></div>
-      <div class="bento-col-right">
-        <img src="images/stock/image-02.jpeg" alt="Stockbild 2">
-        <img src="images/stock/image-03.jpeg" alt="Stockbild 3">
-      </div>
+    <div class="section-intro-imgs masonry">
+      <div class="section-intro-img"><img src="images/stock/image-01.png" alt="Stockbild 1"></div>
+      <div class="section-intro-img"><img src="images/stock/image-02.jpeg" alt="Stockbild 2"></div>
+      <div class="section-intro-img"><img src="images/stock/image-03.jpeg" alt="Stockbild 3"></div>
     </div>
   </section>
 
@@ -1377,9 +1652,10 @@
   <!-- SECTION INTRO — Reklam -->
   <section id="red-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Reklam</h2>
-    <div class="section-intro-imgs">
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
+    <div class="section-intro-imgs masonry">
+      <div class="section-intro-img"><img src="images/reklam/image-01.png" alt="Reklam 1"></div>
+      <div class="section-intro-img"><img src="images/reklam/image-02.jpeg" alt="Reklam 2"></div>
+      <div class="section-intro-img"><img src="images/reklam/image-03.jpeg" alt="Reklam 3"></div>
     </div>
   </section>
 
@@ -1401,7 +1677,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <div class="img-placeholder"><p>Output</p></div>
+        <img src="images/reklam/image-01.png" alt="Output reklam">
       </div>
 </div>
     </div>
@@ -1439,9 +1715,10 @@
   <!-- SECTION INTRO — Viralt -->
   <section id="viral-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Viralt</h2>
-    <div class="section-intro-imgs">
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 1</p></div></div>
-      <div class="section-intro-img"><div class="section-intro-img-ph"><p>Bild 2</p></div></div>
+    <div class="section-intro-imgs masonry">
+      <div class="section-intro-img"><img src="images/viral/image-01.jpeg" alt="Viralt 1"></div>
+      <div class="section-intro-img"><img src="images/viral/image-02.jpg" alt="Viralt 2"></div>
+      <div class="section-intro-img"><img src="images/viral/image-03.jpeg" alt="Viralt 3"></div>
     </div>
   </section>
 
@@ -1463,7 +1740,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <div class="img-placeholder"><p>Output</p></div>
+        <img src="images/viral/image-02.jpg" alt="Output viralt">
       </div>
 </div>
     </div>
@@ -1496,6 +1773,34 @@
       </div>
     </div>
     <div class="next-link"><a class="btn" href="#outro">Till outro →</a></div>
+  </section>
+
+  <!-- BONUS -->
+  <section id="bonus" class="bonus-section" data-s>
+    <h2 class="bonus-title">Bonus</h2>
+    <div class="bonus-grid">
+      <div class="bonus-card">
+        <img src="images/bonus/image-01.jpeg" alt="Bonus 1">
+        <div class="bonus-overlay">
+          <p class="bonus-prompt-text" id="bonus-p1">[Prompt för bild 1 — lägg till här]</p>
+          <button class="bonus-copy-btn" onclick="copyBonus('bonus-p1', this)">Kopiera</button>
+        </div>
+      </div>
+      <div class="bonus-card">
+        <img src="images/bonus/image-03.jpeg" alt="Bonus 3">
+        <div class="bonus-overlay">
+          <p class="bonus-prompt-text" id="bonus-p3">[Prompt för bild 3 — lägg till här]</p>
+          <button class="bonus-copy-btn" onclick="copyBonus('bonus-p3', this)">Kopiera</button>
+        </div>
+      </div>
+      <div class="bonus-card">
+        <img src="images/bonus/image-02.jpg" alt="Bonus 2">
+        <div class="bonus-overlay">
+          <p class="bonus-prompt-text" id="bonus-p2">[Prompt för bild 2 — lägg till här]</p>
+          <button class="bonus-copy-btn" onclick="copyBonus('bonus-p2', this)">Kopiera</button>
+        </div>
+      </div>
+    </div>
   </section>
 
   <!-- OUTRO — kollage -->
@@ -1541,10 +1846,10 @@
 
   // unlockLevel → max accessible slide index
   const UNLOCK_MAP   = [2, 4, 6, 8, 10, 12, 14, 15];
-  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Stockbilder','Reklam','Viralt','Outro'];
+  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Stockbilder','Reklam','Viralt','Bonus','Outro'];
 
   // ── Slide system ──────────────────────────────────────────────────────
-  const SLIDES    = ['intro','upplagg1','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','stock-intro','stock','red-intro','red','viral-intro','viral','outro'];
+  const SLIDES    = ['intro','upplagg1','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','stock-intro','stock','red-intro','red','viral-intro','viral','bonus','outro'];
   const railLinks = Array.from(document.querySelectorAll('.rail-link[data-idx]'));
   const prevBtn   = document.getElementById('prevBtn');
   const nextBtn   = document.getElementById('nextBtn');
@@ -1755,6 +2060,16 @@
       setTimeout(() => { btn.classList.remove('ok'); btn.textContent = orig; }, 1400);
     });
   });
+
+  function copyBonus(id, btn) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    navigator.clipboard.writeText(el.textContent.trim()).then(() => {
+      btn.textContent = '✓ Kopierat';
+      btn.classList.add('copied');
+      setTimeout(() => { btn.textContent = 'Kopiera'; btn.classList.remove('copied'); }, 1600);
+    });
+  }
 
   // 🍌 Banana fireworks on shake
   function burstBananas(btn) {
