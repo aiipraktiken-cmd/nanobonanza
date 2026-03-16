@@ -747,15 +747,30 @@
       max-height: 220px;
     }
 
-    /* ── XTRA (viral) + STOCKBILDER – fix object-fit och aspect-ratio för masonry ── */
-    #viral-intro .section-intro-imgs.masonry .section-intro-img,
-    #stock-intro .section-intro-imgs.masonry .section-intro-img {
-      aspect-ratio: auto;
+    /* ── KOMMUNIKATION + STOCKBILDER — true CSS columns masonry ── */
+    #stock-intro .section-intro-imgs.masonry,
+    #viral-intro .section-intro-imgs.masonry {
+      display: block;
+      columns: 3;
+      column-gap: 10px;
+      width: min(74%, 1000px);
+      height: auto;
+      max-height: none;
+      overflow: visible;
     }
-    #viral-intro .section-intro-imgs.masonry .section-intro-img img,
-    #stock-intro .section-intro-imgs.masonry .section-intro-img img {
-      object-fit: cover;
-      object-position: center;
+    #stock-intro .section-intro-imgs.masonry .section-intro-img,
+    #viral-intro .section-intro-imgs.masonry .section-intro-img {
+      break-inside: avoid;
+      margin-bottom: 10px;
+      aspect-ratio: auto;
+      display: block;
+    }
+    #stock-intro .section-intro-imgs.masonry .section-intro-img img,
+    #viral-intro .section-intro-imgs.masonry .section-intro-img img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      display: block;
     }
 
     /* Reklam bento grid */
@@ -1020,6 +1035,7 @@
       font-size: .8rem;
       color: var(--muted);
       font-family: "JetBrains Mono", monospace;
+      margin-top: 30px;
       font-weight: 300;
     }
     .scroll-hint {
@@ -1609,13 +1625,17 @@
         <h2 class="cluster-title">Porträtt — Studio</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="p1-ex">"High-key beauty-studioporträtt baserat på referensbilden av MÖRKHYAD KVINNA I 50-ÅRSÅLDERN, MED GRÅSPRÄNGT LOCKIGT HÅR OCH METALLISKA AVIATOR-GLASÖGON, SOM I REFERENSBILDERNA. Bibehåll alla igenkännbara ansiktsdrag. Miljö: Sömlös ljusgrå gradient bakgrund. Belysning: Stor softbox placerad RAKT OVANFÖR KAMERAN, kombinerat med extra fill-ljus som nästan helt tar bort alla skuggor. Kläder: en röd collage tröja utan text Hud: JÄMN men med med mjuk sminkad textur. Subtil professionell retusch. Perfekt för exklusiva kampanjer eller pressbilder. Kvalitet: 8K UHD-klarhet, skärpa, polerade texturer, noll linsreflexer. --ar 3:4</pre>
+        <p class="ex-hint">Justera: personbeskrivning, bakgrundsfärg, ljusposition, hudtextur.</p>
         <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
-            <img src="images/p1/portratt-01-ref.jpg" alt="Referensbild porträtt studio">
+            <img src="images/p1/referensbild-maria-01.png" alt="Referensbild porträtt studio 1">
+          </div>
+          <div class="cluster-ref-img-wrap">
+            <span class="img-panel-label">Referensbild</span>
+            <img src="images/p1/referensbild-maria-02.png" alt="Referensbild porträtt studio 2">
           </div>
         </div>
-        <p class="ex-hint">Justera: personbeskrivning, bakgrundsfärg, ljusposition, hudtextur.</p>
       </div>
       <div class="cluster-right">
         <span class="img-panel-label">Output</span>
@@ -1669,13 +1689,13 @@
         <h2 class="cluster-title">Porträtt — Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="p2-ex">A professional lifestyle portrait of a woman with short styled cruly hair inspired by the composition and style of lifestyle magazine. She is wearing a black stylish hoodie layered under a stylish trench coat. The woman stands in a relaxed three-quarter pose in a gritty urban street setting. Her gaze looks outside the image and in one hand she holds a take away coffee. The background features a textured wall with posters and graffiti, with the blurred silhouettes of bicycles parked nearby. High-fidelity textures, shot on a 35mm lens, natural daylight with a soft warm tone, shallow depth of field creating a smooth bokeh effect. Contemporary, urban, and authentic.</pre>
+<p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
             <img src="images/p2/ref-image-01.png" alt="Referensbild">
           </div>
         </div>
-<p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
@@ -1730,13 +1750,13 @@
         <h2 class="cluster-title">Produkt</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="prod-ex">Fotorealistisk bild av [Bosch hammare med grönt skaft] svävande ståendes några centimeter över en osynlig yta, mjuk diffus skugga direkt under produkten för realism, ren ljus bakgrund med diskret tvåtons‑gradient, jämn studiobelysning, skarpa detaljer i logotyp och etikett, modern DTC‑estetik optimerad som hero‑bild på e‑handelssida</pre>
+<p class="ex-hint">Justera: material, reflection, backdrop, angle, hero ratio.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
             <div class="img-placeholder"><p>Referensbild</p></div>
           </div>
         </div>
-<p class="ex-hint">Justera: material, reflection, backdrop, angle, hero ratio.</p>
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
@@ -1793,13 +1813,13 @@
         <h2 class="cluster-title">Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="red-ex">Editorial photo of [scene], on-location reportage style, available light, human storytelling, balanced composition, subtle film grain, magazine-ready realism, no text overlays.</pre>
+<p class="ex-hint">Justera: event type, subject focus, mood tone, framing tightness.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
             <div class="img-placeholder"><p>Referensbild</p></div>
           </div>
         </div>
-<p class="ex-hint">Justera: event type, subject focus, mood tone, framing tightness.</p>
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
@@ -1856,13 +1876,13 @@
         <h2 class="cluster-title">Kommunikation</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="stock-ex">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</pre>
+<p class="ex-hint">Justera: industry, age mix, office style, camera distance.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
             <div class="img-placeholder"><p>Referensbild</p></div>
           </div>
         </div>
-<p class="ex-hint">Justera: industry, age mix, office style, camera distance.</p>
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
@@ -1919,13 +1939,13 @@
         <h2 class="cluster-title">Stockbilder</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="viral-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
+<p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
             <div class="img-placeholder"><p>Referensbild</p></div>
           </div>
         </div>
-<p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
