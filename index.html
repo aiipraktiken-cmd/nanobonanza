@@ -310,14 +310,14 @@
     }
     .hero-bananas span {
       position: absolute;
-      opacity: .18;
+      opacity: .07;
       animation: bananaDrift var(--dur, 11s) ease-in-out infinite;
       animation-delay: var(--delay, 0s);
       user-select: none;
       line-height: 1;
     }
     .hero-bananas span:has(dotlottie-player) {
-      opacity: 1;
+      opacity: .18;
     }
     .hero p {
       color: var(--muted);
@@ -503,27 +503,30 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       grid-template-rows: repeat(3, 1fr);
-      width: min(78vw, 860px);
-      height: min(72vh, 520px);
+      width: min(90vw, 1000px);
+      height: min(82vh, 600px);
     }
     .cgo-cell {
       display: flex;
-      align-items: flex-start;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
       padding: 32px 40px;
       border-right: 1px solid #3a3a38;
       border-bottom: 1px solid #3a3a38;
       font-family: "Outfit", sans-serif;
-      font-size: clamp(1rem, 2vw, 1.45rem);
-      font-weight: 900;
-      letter-spacing: -.01em;
+      font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+      font-weight: 100 !important;
+      letter-spacing: .02em;
       color: var(--text);
       text-decoration: none;
-      transition: background .2s;
+      transition: background .2s, color .2s;
     }
     .cgo-cell:nth-child(even) { border-right: none; }
     .cgo-cell:nth-child(5),
     .cgo-cell:nth-child(6) { border-bottom: none; }
-    .cgo-cell:hover { background: rgba(255,255,255,.04); }
+    .cgo-cell:hover { background: rgba(255,210,52,.05); color: var(--banana); }
+    #sektioner { align-items: center; }
 
     /* ── SECTION INTRO ── */
     .section-intro {
@@ -538,7 +541,7 @@
     .section-intro-title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(2.8rem, 6.5vw, 5.2rem);
-      font-weight: 900;
+      font-weight: 100;
       letter-spacing: -.03em;
       text-align: center;
       color: var(--text);
@@ -893,7 +896,7 @@
     .cluster-title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 900;
+      font-weight: 100;
       line-height: 1.05;
       letter-spacing: -.02em;
       margin-bottom: 8px;
@@ -1468,21 +1471,22 @@
   <nav class="rail-nav">
     <a class="rail-link" data-idx="0"  href="#intro">       <span class="rail-icon" style="font-size:14px;line-height:1;display:flex;align-items:center;justify-content:center;">🍌</span><span class="rail-label">Intro</span></a>
     <a class="rail-link" data-idx="1"  href="#upplagg1">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-list"/></svg><span class="rail-label">Upplägg</span></a>
-    <a class="rail-link" data-idx="2"  href="#oversikt">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-grid"/></svg><span class="rail-label">Tips</span></a>
-    <a class="rail-link" data-idx="3"  href="#p1-intro">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-person"/></svg><span class="rail-label">Porträtt 1</span></a>
-    <a class="rail-link" data-idx="4"  href="#p1">         <svg class="rail-icon" aria-hidden="true"><use href="#icon-person"/></svg><span class="rail-label">01 · Porträtt 1</span></a>
-    <a class="rail-link" data-idx="5"  href="#p2-intro">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-persons"/></svg><span class="rail-label">Porträtt 2</span></a>
-    <a class="rail-link" data-idx="6"  href="#p2">         <svg class="rail-icon" aria-hidden="true"><use href="#icon-persons"/></svg><span class="rail-label">02 · Porträtt 2</span></a>
-    <a class="rail-link" data-idx="7"  href="#prod-intro"> <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">Produkt</span></a>
-    <a class="rail-link" data-idx="8"  href="#prod">       <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">03 · Produkt</span></a>
-    <a class="rail-link" data-idx="9"  href="#red-intro">  <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">Reklam</span></a>
-    <a class="rail-link" data-idx="10" href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">04 · Reklam</span></a>
-    <a class="rail-link" data-idx="11" href="#viral-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">Stockbilder</span></a>
-    <a class="rail-link" data-idx="12" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">05 · Stockbilder</span></a>
-    <a class="rail-link" data-idx="13" href="#stock-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">Kommunikation</span></a>
-    <a class="rail-link" data-idx="14" href="#stock">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">06 · Kommunikation</span></a>
-    <a class="rail-link" data-idx="15" href="#bonus">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Bonus</span></a>
-    <a class="rail-link" data-idx="16" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
+    <a class="rail-link" data-idx="2"  href="#sektioner">  <svg class="rail-icon" aria-hidden="true"><use href="#icon-grid"/></svg><span class="rail-label">Sektioner</span></a>
+    <a class="rail-link" data-idx="3"  href="#oversikt">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-list"/></svg><span class="rail-label">Tips</span></a>
+    <a class="rail-link" data-idx="4"  href="#p1-intro">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-person"/></svg><span class="rail-label">Porträtt 1</span></a>
+    <a class="rail-link" data-idx="5"  href="#p1">         <svg class="rail-icon" aria-hidden="true"><use href="#icon-person"/></svg><span class="rail-label">01 · Porträtt 1</span></a>
+    <a class="rail-link" data-idx="6"  href="#p2-intro">   <svg class="rail-icon" aria-hidden="true"><use href="#icon-persons"/></svg><span class="rail-label">Porträtt 2</span></a>
+    <a class="rail-link" data-idx="7"  href="#p2">         <svg class="rail-icon" aria-hidden="true"><use href="#icon-persons"/></svg><span class="rail-label">02 · Porträtt 2</span></a>
+    <a class="rail-link" data-idx="8"  href="#prod-intro"> <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">Produkt</span></a>
+    <a class="rail-link" data-idx="9"  href="#prod">       <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">03 · Produkt</span></a>
+    <a class="rail-link" data-idx="10" href="#red-intro">  <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">Reklam</span></a>
+    <a class="rail-link" data-idx="11" href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">04 · Reklam</span></a>
+    <a class="rail-link" data-idx="12" href="#stock-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">Kommunikation</span></a>
+    <a class="rail-link" data-idx="13" href="#stock">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">05 · Kommunikation</span></a>
+    <a class="rail-link" data-idx="14" href="#viral-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">Stockbilder</span></a>
+    <a class="rail-link" data-idx="15" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">06 · Stockbilder</span></a>
+    <a class="rail-link" data-idx="16" href="#bonus">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Bonus</span></a>
+    <a class="rail-link" data-idx="17" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
   </nav>
 </aside>
 
@@ -1528,6 +1532,9 @@
       <span style="left:88%;top:44%;--r:-5deg;--dur:10s;--delay:-9s;animation-name:bananaDrift">
         <dotlottie-player src="https://lottie.host/3273417a-6662-43aa-b478-94c3cc8ec74b/TDCAo9Yovg.lottie" autoplay loop style="width:130px;height:130px;transform:rotate(-5deg)"></dotlottie-player>
       </span>
+      <span style="left:38%;top:50%;--r:20deg;--dur:13s;--delay:-4s;animation-name:bananaFloat">
+        <dotlottie-player src="https://lottie.host/3273417a-6662-43aa-b478-94c3cc8ec74b/TDCAo9Yovg.lottie" autoplay loop style="width:110px;height:110px;transform:rotate(20deg)"></dotlottie-player>
+      </span>
     </div>
     <p class="kicker">Unconf 2026 · Workout session</p>
     <h2><span style="font-family:'Playfair Display',serif">N</span><span style="font-family:'Lobster',cursive">a</span><span style="font-family:'Bebas Neue',sans-serif">n</span><span style="font-family:'Pacifico',cursive">o</span> <span style="font-family:'Righteous',sans-serif">B</span><span style="font-family:'Abril Fatface',serif">o</span><span style="font-family:'Press Start 2P',monospace;font-size:.7em">n</span><span style="font-family:'Dancing Script',cursive">a</span><span style="font-family:'Permanent Marker',cursive">n</span><span style="font-family:'Fredoka One',cursive">z</span><span style="font-family:'Black Ops One',cursive">a</span></h2>
@@ -1551,6 +1558,18 @@
         <div class="qr-box"><img src="images/qr_banan.png" alt="QR-kod till sidan"></div>
         <p class="url-text"><a href="https://bit.ly/NanoBonanza" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">https://bit.ly/NanoBonanza</a></p>
       </div>
+    </div>
+  </section>
+
+  <!-- SLIDE — Sektionsöversikt 2×3 -->
+  <section id="sektioner" class="slide-section" data-s>
+    <div class="cgo-grid">
+      <a class="cgo-cell" href="#p1">01 · Porträtt — Studio</a>
+      <a class="cgo-cell" href="#p2">02 · Porträtt — Redaktionellt</a>
+      <a class="cgo-cell" href="#prod">03 · Produkt</a>
+      <a class="cgo-cell" href="#red">04 · Reklam</a>
+      <a class="cgo-cell" href="#stock">05 · Kommunikation</a>
+      <a class="cgo-cell" href="#viral" style="position:relative;">06 · Stockbilder<span style="position:absolute;bottom:14px;right:18px;font-size:1em;font-weight:900;color:var(--banana);transform:rotate(-12deg);letter-spacing:.02em;">+Bonus</span></a>
     </div>
   </section>
 
@@ -1816,73 +1835,10 @@
         </div>
       </div>
     </div>
-    <div class="next-link"><a class="btn" href="#viral">Nästa prompt →</a></div>
-  </section>
-
-  <!-- SECTION INTRO — Viralt -->
-  <section id="viral-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Stockbilder</h2>
-    <div class="section-intro-imgs masonry">
-      <div class="section-intro-img"><img src="images/stock/image-01.png" alt="Viralt 1"></div>
-      <div class="section-intro-img"><img src="images/stock/image-02.png" alt="Viralt 2"></div>
-      <div class="section-intro-img"><img src="images/stock/image-03.png" alt="Viralt 3"></div>
-    </div>
-  </section>
-
-  <!-- ══════════════════ CLUSTER 05 ══════════════════ -->
-  <section id="viral" class="cluster" data-s>
-    <div class="cluster-above">
-      <div class="cluster-left">
-        <p class="cluster-num">Prompt 05</p>
-        <h2 class="cluster-title">Stockbilder</h2>
-        <p class="ex-label">Bildprompt</p>
-        <pre class="ex-prompt" id="viral-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
-                <div class="cluster-ref-imgs">
-          <div class="cluster-ref-img-wrap">
-            <span class="img-panel-label">Referensbild</span>
-            <div class="img-placeholder"><p>Referensbild</p></div>
-          </div>
-        </div>
-<p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
-        </div>
-            <div class="cluster-right">
-        <span class="img-panel-label">Output</span>
-        <img src="images/stock/image-02.png" alt="Output viralt">
-      </div>
-</div>
-    </div>
-    <div class="cluster-below">
-      <div class="cluster-col">
-        <p class="col-label">Mall-prompt</p>
-        <p class="col-title">Kopiera och anpassa</p>
-        <div class="copy-block">
-          <pre id="viral-tmpl">Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.</pre>
-          <button class="copy-btn" data-copy="viral-tmpl">Kopiera mall</button>
-        </div>
-        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
-      </div>
-      <div class="cluster-col">
-        <p class="col-label">Extra prompts</p>
-        <div class="extras">
-          <div class="extra">
-            <p id="viral-e1">Parent and child cooking dinner at home, warm practical light, candid laughter, cozy kitchen setting.</p>
-            <button class="copy-btn" data-copy="viral-e1">↗</button>
-          </div>
-          <div class="extra">
-            <p id="viral-e2">Remote worker at kitchen table, morning side light, calm minimalist setting, coffee steam visible.</p>
-            <button class="copy-btn" data-copy="viral-e2">↗</button>
-          </div>
-          <div class="extra">
-            <p id="viral-e3">Friends cycling in city park, dynamic wide angle, upbeat lifestyle mood, golden afternoon light.</p>
-            <button class="copy-btn" data-copy="viral-e3">↗</button>
-          </div>
-        </div>
-      </div>
-    </div>
     <div class="next-link"><a class="btn" href="#stock">Nästa prompt →</a></div>
   </section>
 
-  <!-- SECTION INTRO — Stockbilder -->
+  <!-- SECTION INTRO — Kommunikation -->
   <section id="stock-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Kommunikation</h2>
     <div class="section-intro-imgs masonry">
@@ -1892,11 +1848,11 @@
     </div>
   </section>
 
-  <!-- ══════════════════ CLUSTER 06 ══════════════════ -->
+  <!-- ══════════════════ CLUSTER 05 ══════════════════ -->
   <section id="stock" class="cluster" data-s>
     <div class="cluster-above">
       <div class="cluster-left">
-        <p class="cluster-num">Prompt 06</p>
+        <p class="cluster-num">Prompt 05</p>
         <h2 class="cluster-title">Kommunikation</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="stock-ex">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</pre>
@@ -1938,6 +1894,69 @@
           <div class="extra">
             <p id="stock-e3">Split-scene before/after transformation in one frame, impossible but photorealistic lighting throughout.</p>
             <button class="copy-btn" data-copy="stock-e3">↗</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="next-link"><a class="btn" href="#viral">Nästa prompt →</a></div>
+  </section>
+
+  <!-- SECTION INTRO — Stockbilder -->
+  <section id="viral-intro" class="section-intro" data-s>
+    <h2 class="section-intro-title">Stockbilder</h2>
+    <div class="section-intro-imgs masonry">
+      <div class="section-intro-img"><img src="images/stock/image-01.png" alt="Stockbilder 1"></div>
+      <div class="section-intro-img"><img src="images/stock/image-02.png" alt="Stockbilder 2"></div>
+      <div class="section-intro-img"><img src="images/stock/image-03.png" alt="Stockbilder 3"></div>
+    </div>
+  </section>
+
+  <!-- ══════════════════ CLUSTER 06 ══════════════════ -->
+  <section id="viral" class="cluster" data-s>
+    <div class="cluster-above">
+      <div class="cluster-left">
+        <p class="cluster-num">Prompt 06</p>
+        <h2 class="cluster-title">Stockbilder</h2>
+        <p class="ex-label">Bildprompt</p>
+        <pre class="ex-prompt" id="viral-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
+                <div class="cluster-ref-imgs">
+          <div class="cluster-ref-img-wrap">
+            <span class="img-panel-label">Referensbild</span>
+            <div class="img-placeholder"><p>Referensbild</p></div>
+          </div>
+        </div>
+<p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
+        </div>
+            <div class="cluster-right">
+        <span class="img-panel-label">Output</span>
+        <img src="images/stock/image-02.png" alt="Output stockbilder">
+      </div>
+</div>
+    </div>
+    <div class="cluster-below">
+      <div class="cluster-col">
+        <p class="col-label">Mall-prompt</p>
+        <p class="col-title">Kopiera och anpassa</p>
+        <div class="copy-block">
+          <pre id="viral-tmpl">Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.</pre>
+          <button class="copy-btn" data-copy="viral-tmpl">Kopiera mall</button>
+        </div>
+        <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
+      </div>
+      <div class="cluster-col">
+        <p class="col-label">Extra prompts</p>
+        <div class="extras">
+          <div class="extra">
+            <p id="viral-e1">Parent and child cooking dinner at home, warm practical light, candid laughter, cozy kitchen setting.</p>
+            <button class="copy-btn" data-copy="viral-e1">↗</button>
+          </div>
+          <div class="extra">
+            <p id="viral-e2">Remote worker at kitchen table, morning side light, calm minimalist setting, coffee steam visible.</p>
+            <button class="copy-btn" data-copy="viral-e2">↗</button>
+          </div>
+          <div class="extra">
+            <p id="viral-e3">Friends cycling in city park, dynamic wide angle, upbeat lifestyle mood, golden afternoon light.</p>
+            <button class="copy-btn" data-copy="viral-e3">↗</button>
           </div>
         </div>
       </div>
@@ -1999,11 +2018,11 @@
   const PRESENTER_MODE = new URLSearchParams(location.search).get('presenter') === 'nanobonanza';
 
   // unlockLevel → max accessible slide index
-  const UNLOCK_MAP   = [2, 4, 6, 8, 10, 12, 14, 15, 16];
-  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Kommunikation','Reklam','Stockbilder','Bonus','Outro'];
+  const UNLOCK_MAP   = [2, 3, 5, 7, 9, 11, 13, 15, 16, 17];
+  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Produkt','Reklam','Kommunikation','Stockbilder','Bonus','Outro'];
 
   // ── Slide system ──────────────────────────────────────────────────────
-  const SLIDES    = ['intro','upplagg1','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','red-intro','red','viral-intro','viral','stock-intro','stock','bonus','outro'];
+  const SLIDES    = ['intro','upplagg1','sektioner','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','red-intro','red','stock-intro','stock','viral-intro','viral','bonus','outro'];
   const railLinks = Array.from(document.querySelectorAll('.rail-link[data-idx]'));
   const prevBtn   = document.getElementById('prevBtn');
   const nextBtn   = document.getElementById('nextBtn');
@@ -2197,8 +2216,8 @@
     ['Porträtt 1 (Studio):',  'p1-tmpl'],
     ['Porträtt 2 (Miljö):',   'p2-tmpl'],
     ['Produkt:',               'prod-tmpl'],
-    ['Kommunikation:',                  'stock-tmpl'],
-    ['Reklam:',         'red-tmpl'],
+    ['Reklam:',                'red-tmpl'],
+    ['Kommunikation:',         'stock-tmpl'],
     ['Stockbilder:',           'viral-tmpl'],
   ];
   const allTmplsEl = document.getElementById('all-tmpls');
