@@ -7,7 +7,7 @@
   <script type="module" src="https://unpkg.com/@dotlottie/player-component@latest/dist/dotlottie-player.mjs"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@100;300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@100;300;400;500&family=Playfair+Display:wght@900&family=Lobster&family=Bebas+Neue&family=Pacifico&family=Righteous&family=Abril+Fatface&family=Press+Start+2P&family=Dancing+Script:wght@700&family=Permanent+Marker&family=Fredoka+One&family=Black+Ops+One&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg:       #1a1a18;
@@ -21,6 +21,7 @@
       --ok:       #ffffff;
       --rail-w:   52px;
       --r:        4px;
+      --banana:   #FFD234;
     }
 
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -35,6 +36,20 @@
       line-height: 1.55;
       overflow-x: hidden;
     }
+
+    /* ── ENTRY ANIMATIONS ── */
+    @keyframes heroFadeUp {
+      from { opacity: 0; transform: translateY(22px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes heroScale {
+      from { opacity: 0; transform: scale(.94); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+    .hero .kicker    { animation: heroFadeUp .7s cubic-bezier(.22,1,.36,1) .1s both; }
+    .hero h2         { animation: heroScale  .9s cubic-bezier(.22,1,.36,1) .25s both; }
+    .hero > p        { animation: heroFadeUp .7s cubic-bezier(.22,1,.36,1) .5s both; }
+    .hero-cta        { animation: heroFadeUp .7s cubic-bezier(.22,1,.36,1) .7s both; }
 
     /* ── RAIL ── */
     .rail {
@@ -85,7 +100,7 @@
     .rail-brand h1 {
       font-family: "Outfit", sans-serif;
       font-size: 17px;
-      font-weight: 100;
+      font-weight: 900;
       line-height: 1.2;
       margin-top: 5px;
     }
@@ -226,29 +241,34 @@
       justify-items: center;
       text-align: center;
       padding: 80px 72px;
-      gap: 20px;
+      gap: 24px;
       border-bottom: none;
       position: relative;
       overflow: hidden;
+      background: radial-gradient(ellipse 80% 60% at 50% 45%, rgba(255,210,52,.06) 0%, transparent 70%), var(--bg);
     }
     .hero .kicker {
-      font: 400 11px/1 "JetBrains Mono", monospace;
-      letter-spacing: .14em;
+      font: 500 11px/1 "JetBrains Mono", monospace;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      color: var(--muted);
+      color: var(--banana);
+      background: rgba(255,210,52,.1);
+      border: 1px solid rgba(255,210,52,.25);
+      border-radius: 100px;
+      padding: 6px 14px;
       position: relative;
       z-index: 1;
     }
     .hero h2 {
-      font-family: "Outfit", sans-serif;
-      font-size: clamp(4.4rem, 9vw, 6.8rem);
-      font-weight: 100;
-      line-height: 1.04;
-      max-width: 22ch;
+      font-size: clamp(5.5rem, 12vw, 10rem);
+      font-weight: 900;
+      line-height: 1.0;
       letter-spacing: -.01em;
       position: relative;
       z-index: 1;
+      filter: drop-shadow(0 0 40px rgba(255,210,52,.18));
     }
+    .hero h2 span { display: inline-block; }
     .hero p { position: relative; z-index: 1; }
     .hero-cta { position: relative; z-index: 1; }
 
@@ -290,15 +310,18 @@
     }
     .hero-bananas span {
       position: absolute;
-      opacity: .07;
+      opacity: .18;
       animation: bananaDrift var(--dur, 11s) ease-in-out infinite;
       animation-delay: var(--delay, 0s);
       user-select: none;
       line-height: 1;
     }
+    .hero-bananas span:has(dotlottie-player) {
+      opacity: 1;
+    }
     .hero p {
       color: var(--muted);
-      font-size: 1.1rem;
+      font-size: 1.5rem;
       max-width: 58ch;
     }
     .hero-cta {
@@ -318,15 +341,27 @@
     }
     .slide-title {
       font-family: "Outfit", sans-serif;
-      font-size: clamp(2.4rem, 5vw, 4rem);
-      font-weight: 100;
+      font-size: clamp(3.4rem, 6.5vw, 5.5rem);
+      font-weight: 900;
       line-height: 1.0;
       letter-spacing: -.02em;
       margin-bottom: 52px;
       text-align: center;
+      position: relative;
+      display: inline-block;
+    }
+    .slide-title::after {
+      content: "";
+      display: block;
+      height: 3px;
+      width: 40px;
+      background: var(--banana);
+      border-radius: 2px;
+      margin: 14px auto 0;
     }
     #upplagg1 {
       align-items: center;
+      padding-bottom: 130px;
     }
 
     /* Slide 2 — checklist 2-col */
@@ -353,11 +388,16 @@
       line-height: 1.4;
     }
     .tips-list li::before {
-      content: "□";
-      font-size: 1.1em;
+      content: "🍌";
+      font-size: .8em;
       flex-shrink: 0;
-      margin-top: .05em;
-      color: var(--muted);
+      margin-top: .15em;
+    }
+    .tips-list li strong {
+      color: var(--banana);
+      font-weight: 700;
+      display: block;
+      margin-bottom: 4px;
     }
 
     /* Slide 2 — checklist */
@@ -371,16 +411,18 @@
       display: flex;
       align-items: flex-start;
       gap: 22px;
-      font-size: clamp(1.05rem, 1.8vw, 1.3rem);
+      font-family: "Outfit", sans-serif;
+      font-size: clamp(1rem, 1.8vw, 1.25rem);
       font-weight: 300;
       line-height: 1.4;
     }
     .slide-section .checklist li::before {
-      content: "□";
-      font-size: 1.1em;
+      content: "→";
+      font-family: "JetBrains Mono", monospace;
+      font-size: .9em;
       flex-shrink: 0;
-      margin-top: .05em;
-      color: var(--muted);
+      margin-top: .1em;
+      color: var(--banana);
     }
 
     /* Slide 3 — URL + QR */
@@ -397,14 +439,18 @@
       color: var(--muted);
     }
     .qr-box {
-      width: 160px;
-      height: 160px;
-      background: #ffffff;
+      width: 200px;
+      height: 200px;
+      background: none;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-direction: column;
-      gap: 6px;
+    }
+    .qr-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
     }
     .qr-box span {
       color: #000;
@@ -414,13 +460,44 @@
 
     /* Slide 4 — cluster overview grid (centered, not full-bleed) */
     .slide-section#oversikt {
-      padding: 0;
+      padding: 80px 72px 130px;
       height: 100vh;
       min-height: unset;
-      background: #252523;
+      background: radial-gradient(ellipse 70% 50% at 50% 60%, rgba(255,210,52,.04) 0%, transparent 70%), #252523;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
+    }
+    #oversikt .tips-list {
+      display: block;
+      columns: 2;
+      column-gap: 80px;
+      width: 100%;
+      max-width: 900px;
+    }
+    #oversikt .tips-list li {
+      break-inside: avoid;
+      display: block;
+      position: relative;
+      padding-left: 1.8em;
+      margin-bottom: 22px;
+      font-size: clamp(.85rem, 1.3vw, 1rem);
+      line-height: 1.55;
+    }
+    #oversikt .tips-list li::before {
+      position: absolute;
+      left: 0;
+      top: .1em;
+      font-size: .85em;
+    }
+    #oversikt .tips-list li strong {
+      display: block;
+      color: var(--banana);
+      font-weight: 700;
+      font-size: 1em;
+      margin-bottom: 3px;
+      line-height: 1.3;
     }
     .cgo-grid {
       display: grid;
@@ -437,7 +514,7 @@
       border-bottom: 1px solid #3a3a38;
       font-family: "Outfit", sans-serif;
       font-size: clamp(1rem, 2vw, 1.45rem);
-      font-weight: 100;
+      font-weight: 900;
       letter-spacing: -.01em;
       color: var(--text);
       text-decoration: none;
@@ -461,7 +538,7 @@
     .section-intro-title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(2.8rem, 6.5vw, 5.2rem);
-      font-weight: 100;
+      font-weight: 900;
       letter-spacing: -.03em;
       text-align: center;
       color: var(--text);
@@ -616,16 +693,27 @@
       display: block;
     }
 
-    /* ── REKLAM – editorial masonry: portrait vänster, landscape+square höger ── */
+    /* ── REKLAM – portrait vänster, två landscape höger ── */
     #red-intro .section-intro-imgs.masonry {
       display: flex;
+      flex-direction: row;
       gap: 8px;
       align-items: flex-start;
+      height: auto;
+      overflow: visible;
+      width: min(74%, 1000px);
     }
     #red-intro .section-intro-imgs.masonry > .section-intro-img {
       flex: 0 0 46%;
+      aspect-ratio: auto;
       overflow: hidden;
       border-radius: 3px;
+    }
+    #red-intro .section-intro-imgs.masonry > .section-intro-img img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      display: block;
     }
     #red-intro .red-stack {
       flex: 1;
@@ -634,13 +722,37 @@
       gap: 8px;
     }
     #red-intro .red-stack .section-intro-img {
+      aspect-ratio: auto;
       overflow: hidden;
       border-radius: 3px;
     }
-    #red-intro .section-intro-imgs.masonry img {
+    #red-intro .red-stack .section-intro-img img {
       width: 100%;
       height: auto;
+      object-fit: unset;
       display: block;
+    }
+    #red-intro .red-stack .section-intro-img:first-child {
+      align-self: flex-start;
+      width: auto;
+      max-width: 100%;
+    }
+    #red-intro .red-stack .section-intro-img:first-child img {
+      width: auto;
+      max-width: 100%;
+      height: auto;
+      max-height: 220px;
+    }
+
+    /* ── XTRA (viral) + STOCKBILDER – fix object-fit och aspect-ratio för masonry ── */
+    #viral-intro .section-intro-imgs.masonry .section-intro-img,
+    #stock-intro .section-intro-imgs.masonry .section-intro-img {
+      aspect-ratio: auto;
+    }
+    #viral-intro .section-intro-imgs.masonry .section-intro-img img,
+    #stock-intro .section-intro-imgs.masonry .section-intro-img img {
+      object-fit: cover;
+      object-position: center;
     }
 
     /* Reklam bento grid */
@@ -781,7 +893,7 @@
     .cluster-title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(2rem, 4vw, 3.2rem);
-      font-weight: 100;
+      font-weight: 900;
       line-height: 1.05;
       letter-spacing: -.02em;
       margin-bottom: 8px;
@@ -1054,6 +1166,12 @@
     .btn.padlet-btn:nth-of-type(5) { animation-delay: -2.4s; animation-duration: 4.1s; }
     .btn.padlet-btn:nth-of-type(6) { animation-delay: -4.0s; animation-duration: 5.9s; }
 
+    .starta-btn {
+      padding: 16px 36px;
+      font-size: 13px;
+      margin-top: 0;
+    }
+
     .next-link {
       display: flex;
       justify-content: flex-end;
@@ -1074,27 +1192,31 @@
     .bonus-title {
       font-family: "Outfit", sans-serif;
       font-size: clamp(2rem, 4vw, 3.5rem);
-      font-weight: 100;
+      font-weight: 900;
       color: #fff;
       letter-spacing: 0.05em;
       text-align: center;
     }
     .bonus-grid {
-      columns: 2;
-      column-gap: 16px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
       width: min(92%, 1200px);
     }
     .bonus-card {
-      break-inside: avoid;
-      margin-bottom: 16px;
       position: relative;
       overflow: hidden;
       border-radius: 3px;
       cursor: pointer;
+      background: #0d0d0b;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
     .bonus-card img {
       width: 100%;
-      height: auto;
+      max-height: 380px;
+      object-fit: contain;
       display: block;
       transition: transform 0.55s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     }
@@ -1146,6 +1268,7 @@
       position: relative;
       min-height: 100vh;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       overflow: hidden;
@@ -1159,10 +1282,16 @@
     }
     .collage-bg img {
       display: block;
+      max-height: 34vh;
+      object-fit: cover;
       width: 100%;
       margin-bottom: 4px;
       object-fit: cover;
       break-inside: avoid;
+    }
+    .collage-bg img:nth-child(8) {
+      max-height: 52vh;
+      min-height: 44vh;
     }
     .collage-overlay {
       position: absolute;
@@ -1173,11 +1302,18 @@
       position: relative;
       z-index: 2;
       font-family: "Outfit", sans-serif;
-      font-weight: 100;
-      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 900;
+      font-size: clamp(5rem, 10vw, 9rem);
       letter-spacing: -.03em;
       color: #fff;
       text-align: center;
+    }
+    .collage-emoji {
+      position: relative;
+      z-index: 2;
+      font-size: clamp(3rem, 6vw, 5rem);
+      text-align: center;
+      margin-top: .25em;
     }
 
     /* OUTRO (old) */
@@ -1194,7 +1330,7 @@
     .outro h2 {
       font-family: "Outfit", sans-serif;
       font-size: clamp(1.6rem, 3vw, 2.4rem);
-      font-weight: 100;
+      font-weight: 900;
       margin-bottom: 8px;
       letter-spacing: -.01em;
     }
@@ -1217,7 +1353,7 @@
     .outro-card h3 {
       font-family: "Outfit", sans-serif;
       font-size: 1rem;
-      font-weight: 100;
+      font-weight: 900;
       margin-bottom: 16px;
     }
     .outro .checklist { display: flex; flex-direction: column; gap: 10px; }
@@ -1341,10 +1477,10 @@
     <a class="rail-link" data-idx="8"  href="#prod">       <svg class="rail-icon" aria-hidden="true"><use href="#icon-box"/></svg><span class="rail-label">03 · Produkt</span></a>
     <a class="rail-link" data-idx="9"  href="#red-intro">  <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">Reklam</span></a>
     <a class="rail-link" data-idx="10" href="#red">        <svg class="rail-icon" aria-hidden="true"><use href="#icon-doc"/></svg><span class="rail-label">04 · Reklam</span></a>
-    <a class="rail-link" data-idx="11" href="#viral-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">Viralt</span></a>
-    <a class="rail-link" data-idx="12" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">05 · Viralt</span></a>
-    <a class="rail-link" data-idx="13" href="#stock-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">Stockbilder</span></a>
-    <a class="rail-link" data-idx="14" href="#stock">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">06 · Stockbilder</span></a>
+    <a class="rail-link" data-idx="11" href="#viral-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">Stockbilder</span></a>
+    <a class="rail-link" data-idx="12" href="#viral">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-bolt"/></svg><span class="rail-label">05 · Stockbilder</span></a>
+    <a class="rail-link" data-idx="13" href="#stock-intro"><svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">Kommunikation</span></a>
+    <a class="rail-link" data-idx="14" href="#stock">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-photo"/></svg><span class="rail-label">06 · Kommunikation</span></a>
     <a class="rail-link" data-idx="15" href="#bonus">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Bonus</span></a>
     <a class="rail-link" data-idx="16" href="#outro">      <svg class="rail-icon" aria-hidden="true"><use href="#icon-star"/></svg><span class="rail-label">Outro</span></a>
   </nav>
@@ -1394,11 +1530,10 @@
       </span>
     </div>
     <p class="kicker">Unconf 2026 · Workout session</p>
-    <h2>Nano Bonanza</h2>
-    <p>Sex prompt-kategorier att testa live. Varje tema har en exempelprompt, en mallprompt att kopiera och 2–3 extra varianter att köra direkt.</p>
+    <h2><span style="font-family:'Playfair Display',serif">N</span><span style="font-family:'Lobster',cursive">a</span><span style="font-family:'Bebas Neue',sans-serif">n</span><span style="font-family:'Pacifico',cursive">o</span> <span style="font-family:'Righteous',sans-serif">B</span><span style="font-family:'Abril Fatface',serif">o</span><span style="font-family:'Press Start 2P',monospace;font-size:.7em">n</span><span style="font-family:'Dancing Script',cursive">a</span><span style="font-family:'Permanent Marker',cursive">n</span><span style="font-family:'Fredoka One',cursive">z</span><span style="font-family:'Black Ops One',cursive">a</span></h2>
+    <p>För ibl är helt enkelt genvägar bättre</p>
     <div class="hero-cta">
-      <a class="btn primary" href="#p1">Starta passet</a>
-      <a class="btn" href="#upplagg1">Se formatet</a>
+      <a class="btn padlet-btn starta-btn" href="#p1">Starta passet</a>
     </div>
   </section>
 
@@ -1410,10 +1545,11 @@
         <li>Gemensam genomgång av en promptgrupp</li>
         <li>Du testar prompten själv</li>
         <li>Om du hinner/vill så delar du din bild</li>
+        <li>~5 min på varje sektion</li>
       </ul>
       <div class="url-qr-grid">
-        <div class="qr-box"><span>QR-kod<br>till sidan</span></div>
-        <p class="url-text">www.xxx.sd</p>
+        <div class="qr-box"><img src="images/qr_banan.png" alt="QR-kod till sidan"></div>
+        <p class="url-text"><a href="https://bit.ly/NanoBonanza" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;">https://bit.ly/NanoBonanza</a></p>
       </div>
     </div>
   </section>
@@ -1424,6 +1560,11 @@
     <ul class="tips-list">
       <li>Generera med "Tänkande" = Nano Banan Pro</li>
       <li>Hitta alla bildfiler i en tråd här</li>
+      <li><strong>Förankra identiteten (The Identity Anchor)</strong><br>När du använder en referensbild, var modellens ögon. Nano Banana ser pixlar, du ser en människa. Beskriv de unika särdragen (mullvadar, glasögonmodell, hårstruktur) explicit i prompten för att tvinga modellen att låsa fast identiteten istället för att glida mot ett generiskt AI-ansikte.</li>
+      <li><strong>Bekämpa "Beauty Bias" med "Raw"</strong><br>AI är tränad att göra folk snyggare och yngre. För att behålla rynkor, vikt och ålder måste du använda "våldsamma" termer för realism: "Unretouched", "Raw photograph", "Natural skin imperfections" och "Visible pores". Det förbjuder modellen från att applicera sitt inbyggda skönhetsfilter.</li>
+      <li><strong>Hierarkisk promptning</strong><br>Nano Banana läser från vänster till höger och ger högst vikt åt början av prompten. Placera identiteten och det absolut viktigaste (t.ex. glasögonen eller belysningen) först. Spara tekniska specifikationer och bakgrund till slutet. Det säkerställer att modellen inte "glömmer bort" huvudpersonen halvvägs genom renderingen.</li>
+      <li>Xxxx</li>
+      <li>Xxxx</li>
       <li>Xxxx</li>
     </ul>
   </section>
@@ -1556,9 +1697,9 @@
   <section id="prod-intro" class="section-intro" data-s>
     <h2 class="section-intro-title">Produkt</h2>
     <div class="section-intro-imgs masonry">
-      <div class="section-intro-img"><img src="images/prod/image-01.jpeg" alt="Produktbild 1"></div>
-      <div class="section-intro-img"><img src="images/prod/image-02.jpeg" alt="Produktbild 2"></div>
-      <div class="section-intro-img"><img src="images/prod/image-03.jpeg" alt="Produktbild 3"></div>
+      <div class="section-intro-img"><img src="images/prod/image-01.png" alt="Produktbild 1"></div>
+      <div class="section-intro-img"><img src="images/prod/image-02.png" alt="Produktbild 2"></div>
+      <div class="section-intro-img"><img src="images/prod/image-03.png" alt="Produktbild 3"></div>
     </div>
   </section>
 
@@ -1580,7 +1721,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <img src="images/prod/image-01.jpeg" alt="Output">
+        <img src="images/prod/image-01.png" alt="Output">
       </div>
 </div>
     </div>
@@ -1619,8 +1760,8 @@
     <div class="section-intro-imgs masonry">
       <div class="section-intro-img"><img src="images/reklam/image-01.png" alt="Reklam 1"></div>
       <div class="red-stack">
-        <div class="section-intro-img"><img src="images/reklam/image-03.jpeg" alt="Reklam 3"></div>
-        <div class="section-intro-img"><img src="images/reklam/image-02.jpeg" alt="Reklam 2"></div>
+        <div class="section-intro-img"><img src="images/reklam/image-03.png" alt="Reklam 3"></div>
+        <div class="section-intro-img"><img src="images/reklam/image-02.png" alt="Reklam 2"></div>
       </div>
     </div>
   </section>
@@ -1680,11 +1821,11 @@
 
   <!-- SECTION INTRO — Viralt -->
   <section id="viral-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Viralt</h2>
+    <h2 class="section-intro-title">Stockbilder</h2>
     <div class="section-intro-imgs masonry">
-      <div class="section-intro-img"><img src="images/viral/image-01.jpeg" alt="Viralt 1"></div>
-      <div class="section-intro-img"><img src="images/viral/image-02.jpg" alt="Viralt 2"></div>
-      <div class="section-intro-img"><img src="images/viral/image-03.jpeg" alt="Viralt 3"></div>
+      <div class="section-intro-img"><img src="images/stock/image-01.png" alt="Viralt 1"></div>
+      <div class="section-intro-img"><img src="images/stock/image-02.png" alt="Viralt 2"></div>
+      <div class="section-intro-img"><img src="images/stock/image-03.png" alt="Viralt 3"></div>
     </div>
   </section>
 
@@ -1693,9 +1834,9 @@
     <div class="cluster-above">
       <div class="cluster-left">
         <p class="cluster-num">Prompt 05</p>
-        <h2 class="cluster-title">Viralt</h2>
+        <h2 class="cluster-title">Stockbilder</h2>
         <p class="ex-label">Bildprompt</p>
-        <pre class="ex-prompt" id="viral-ex">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</pre>
+        <pre class="ex-prompt" id="viral-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1706,7 +1847,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <img src="images/viral/image-02.jpg" alt="Output viralt">
+        <img src="images/stock/image-02.png" alt="Output viralt">
       </div>
 </div>
     </div>
@@ -1715,7 +1856,7 @@
         <p class="col-label">Mall-prompt</p>
         <p class="col-title">Kopiera och anpassa</p>
         <div class="copy-block">
-          <pre id="viral-tmpl">Hyper-shareable [subject] image, [impossible twist], bold [color] contrast, [focal point], instantly understandable story, thumbnail-ready composition, no text overlays.</pre>
+          <pre id="viral-tmpl">Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.</pre>
           <button class="copy-btn" data-copy="viral-tmpl">Kopiera mall</button>
         </div>
         <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
@@ -1724,15 +1865,15 @@
         <p class="col-label">Extra prompts</p>
         <div class="extras">
           <div class="extra">
-            <p id="viral-e1">Tiny barista inside a giant coffee cup, cinematic steam, playful surreal realism, warm morning light.</p>
+            <p id="viral-e1">Parent and child cooking dinner at home, warm practical light, candid laughter, cozy kitchen setting.</p>
             <button class="copy-btn" data-copy="viral-e1">↗</button>
           </div>
           <div class="extra">
-            <p id="viral-e2">City street frozen in time except one runner in motion, strong red accent, surreal contrast.</p>
+            <p id="viral-e2">Remote worker at kitchen table, morning side light, calm minimalist setting, coffee steam visible.</p>
             <button class="copy-btn" data-copy="viral-e2">↗</button>
           </div>
           <div class="extra">
-            <p id="viral-e3">Split-scene before/after transformation in one frame, impossible but photorealistic lighting throughout.</p>
+            <p id="viral-e3">Friends cycling in city park, dynamic wide angle, upbeat lifestyle mood, golden afternoon light.</p>
             <button class="copy-btn" data-copy="viral-e3">↗</button>
           </div>
         </div>
@@ -1743,11 +1884,11 @@
 
   <!-- SECTION INTRO — Stockbilder -->
   <section id="stock-intro" class="section-intro" data-s>
-    <h2 class="section-intro-title">Stockbilder</h2>
+    <h2 class="section-intro-title">Kommunikation</h2>
     <div class="section-intro-imgs masonry">
-      <div class="section-intro-img"><img src="images/stock/image-01.png" alt="Stockbild 1"></div>
-      <div class="section-intro-img"><img src="images/stock/image-02.jpeg" alt="Stockbild 2"></div>
-      <div class="section-intro-img"><img src="images/stock/image-03.jpeg" alt="Stockbild 3"></div>
+      <div class="section-intro-img"><img src="images/kommunikation/image-01.png" alt="Kommunikation 1"></div>
+      <div class="section-intro-img"><img src="images/kommunikation/image-02.png" alt="Kommunikation 2"></div>
+      <div class="section-intro-img"><img src="images/kommunikation/image-03.png" alt="Kommunikation 3"></div>
     </div>
   </section>
 
@@ -1756,9 +1897,9 @@
     <div class="cluster-above">
       <div class="cluster-left">
         <p class="cluster-num">Prompt 06</p>
-        <h2 class="cluster-title">Stockbilder</h2>
+        <h2 class="cluster-title">Kommunikation</h2>
         <p class="ex-label">Bildprompt</p>
-        <pre class="ex-prompt" id="stock-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
+        <pre class="ex-prompt" id="stock-ex">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</pre>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1769,7 +1910,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <img src="images/stock/image-03.jpeg" alt="Output">
+        <img src="images/kommunikation/image-01.png" alt="Output kommunikation">
       </div>
 </div>
     </div>
@@ -1778,7 +1919,7 @@
         <p class="col-label">Mall-prompt</p>
         <p class="col-title">Kopiera och anpassa</p>
         <div class="copy-block">
-          <pre id="stock-tmpl">Authentic stock photo of [people] doing [activity] in [setting], [lighting], [camera distance], natural expressions, usable negative space, realistic colors, no text.</pre>
+          <pre id="stock-tmpl">Hyper-shareable [subject] image, [impossible twist], bold [color] contrast, [focal point], instantly understandable story, thumbnail-ready composition, no text overlays.</pre>
           <button class="copy-btn" data-copy="stock-tmpl">Kopiera mall</button>
         </div>
         <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
@@ -1787,15 +1928,15 @@
         <p class="col-label">Extra prompts</p>
         <div class="extras">
           <div class="extra">
-            <p id="stock-e1">Parent and child cooking dinner at home, warm practical light, candid laughter, cozy kitchen setting.</p>
+            <p id="stock-e1">Tiny barista inside a giant coffee cup, cinematic steam, playful surreal realism, warm morning light.</p>
             <button class="copy-btn" data-copy="stock-e1">↗</button>
           </div>
           <div class="extra">
-            <p id="stock-e2">Remote worker at kitchen table, morning side light, calm minimalist setting, coffee steam visible.</p>
+            <p id="stock-e2">City street frozen in time except one runner in motion, strong red accent, surreal contrast.</p>
             <button class="copy-btn" data-copy="stock-e2">↗</button>
           </div>
           <div class="extra">
-            <p id="stock-e3">Friends cycling in city park, dynamic wide angle, upbeat lifestyle mood, golden afternoon light.</p>
+            <p id="stock-e3">Split-scene before/after transformation in one frame, impossible but photorealistic lighting throughout.</p>
             <button class="copy-btn" data-copy="stock-e3">↗</button>
           </div>
         </div>
@@ -1809,21 +1950,21 @@
     <h2 class="bonus-title">Bonus</h2>
     <div class="bonus-grid">
       <div class="bonus-card">
-        <img src="images/bonus/image-01.jpeg" alt="Bonus 1">
+        <img src="images/bonus/image-01.png" alt="Bonus 1">
         <div class="bonus-overlay">
           <p class="bonus-prompt-text" id="bonus-p1">[Prompt för bild 1 — lägg till här]</p>
           <button class="bonus-copy-btn" onclick="copyBonus('bonus-p1', this)">Kopiera</button>
         </div>
       </div>
       <div class="bonus-card">
-        <img src="images/bonus/image-03.jpeg" alt="Bonus 3">
+        <img src="images/bonus/image-03.png" alt="Bonus 3">
         <div class="bonus-overlay">
           <p class="bonus-prompt-text" id="bonus-p3">[Prompt för bild 3 — lägg till här]</p>
           <button class="bonus-copy-btn" onclick="copyBonus('bonus-p3', this)">Kopiera</button>
         </div>
       </div>
       <div class="bonus-card">
-        <img src="images/bonus/image-02.jpg" alt="Bonus 2">
+        <img src="images/bonus/image-02.png" alt="Bonus 2">
         <div class="bonus-overlay">
           <p class="bonus-prompt-text" id="bonus-p2">[Prompt för bild 2 — lägg till här]</p>
           <button class="bonus-copy-btn" onclick="copyBonus('bonus-p2', this)">Kopiera</button>
@@ -1834,28 +1975,12 @@
 
   <!-- OUTRO — kollage -->
   <section id="outro" class="outro-collage" data-s>
-    <div class="collage-bg">
-      <!-- Ersätt rutorna med riktiga bilder: <img src="images/collage/bild.jpg" alt=""> -->
-      <div style="height:52vh;background:#2a2a28;margin-bottom:4px"></div>
-      <div style="height:38vh;background:#303030;margin-bottom:4px"></div>
-      <div style="height:60vh;background:#252523;margin-bottom:4px"></div>
-      <div style="height:44vh;background:#2e2e2c;margin-bottom:4px"></div>
-      <div style="height:35vh;background:#333331;margin-bottom:4px"></div>
-      <div style="height:56vh;background:#282826;margin-bottom:4px"></div>
-      <div style="height:48vh;background:#2b2b29;margin-bottom:4px"></div>
-      <div style="height:64vh;background:#353533;margin-bottom:4px"></div>
-      <div style="height:40vh;background:#2c2c2a;margin-bottom:4px"></div>
-      <div style="height:30vh;background:#313130;margin-bottom:4px"></div>
-      <div style="height:58vh;background:#272725;margin-bottom:4px"></div>
-      <div style="height:46vh;background:#2d2d2b;margin-bottom:4px"></div>
-      <div style="height:36vh;background:#2a2a28;margin-bottom:4px"></div>
-      <div style="height:54vh;background:#303030;margin-bottom:4px"></div>
-      <div style="height:42vh;background:#252523;margin-bottom:4px"></div>
-      <div style="height:62vh;background:#2e2e2c;margin-bottom:4px"></div>
-      <div style="height:28vh;background:#2a2a28;margin-bottom:4px;column-span:all"></div>
+    <div class="collage-bg" id="collageBg">
+      <!-- bilder laddas av JS i slutet av filen -->
     </div>
     <div class="collage-overlay"></div>
     <h2 class="collage-title">Tack för mig</h2>
+    <div class="collage-emoji">🫶🏻</div>
   </section>
 
 </main>
@@ -1874,8 +1999,8 @@
   const PRESENTER_MODE = new URLSearchParams(location.search).get('presenter') === 'nanobonanza';
 
   // unlockLevel → max accessible slide index
-  const UNLOCK_MAP   = [2, 4, 6, 8, 10, 12, 14, 15];
-  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Stockbilder','Reklam','Viralt','Bonus','Outro'];
+  const UNLOCK_MAP   = [2, 4, 6, 8, 10, 12, 14, 15, 16];
+  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Kommunikation','Reklam','Stockbilder','Bonus','Outro'];
 
   // ── Slide system ──────────────────────────────────────────────────────
   const SLIDES    = ['intro','upplagg1','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','red-intro','red','viral-intro','viral','stock-intro','stock','bonus','outro'];
@@ -1917,9 +2042,10 @@
     currentSlide = idx;
     if (PRESENTER_MODE && presenterAdvance) presenterAdvance(idx);
     const el = slideEl(idx);
+    _scrollMax = Infinity; // suspend snap-back while scrollIntoView is in flight
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     updateUI();
-    updateScrollMax();
+    setTimeout(updateScrollMax, 650); // restore after smooth scroll (~600 ms)
   }
 
   // ── Scroll lock: block wheel/touch scroll past current section ────────
@@ -1951,6 +2077,10 @@
       if (i <= limit) goTo(i);
     });
   });
+
+  // ── Starta passet button ──────────────────────────────────────────────
+  const startaBtn = document.querySelector('.starta-btn');
+  if (startaBtn) startaBtn.addEventListener('click', (e) => { e.preventDefault(); goTo(1); });
 
   // ── Next-link buttons inside clusters ────────────────────────────────
   document.querySelectorAll('.next-link a').forEach(a => {
@@ -1999,7 +2129,7 @@
   if (!PRESENTER_MODE) {
     async function pollUnlock() {
       try {
-        const level = Math.min(7, Math.max(0, await upstashGet('nb_unlock')));
+        const level = Math.min(8, Math.max(0, await upstashGet('nb_unlock')));
         const newMax = UNLOCK_MAP[level];
         if (newMax !== maxSlide) { maxSlide = newMax; updateUI(); }
       } catch(e) {}
@@ -2018,14 +2148,14 @@
     document.body.appendChild(widget);
 
     function updateWidget() {
-      document.getElementById('widgetLabel').textContent = `${unlockLevel}/7 · ${SECTION_NAMES[unlockLevel]}`;
+      document.getElementById('widgetLabel').textContent = `${unlockLevel}/8 · ${SECTION_NAMES[unlockLevel]}`;
     }
 
     async function advanceUnlock() {
-      if (unlockLevel >= 7) return;
+      if (unlockLevel >= 8) return;
       try {
         const val = await upstashIncr('nb_unlock');
-        unlockLevel = Math.min(7, val);
+        unlockLevel = Math.min(8, val);
         updateWidget();
       } catch(e) { alert('Upstash-fel: ' + e); }
     }
@@ -2049,7 +2179,7 @@
     });
 
 
-    upstashGet('nb_unlock').then(v => { unlockLevel = Math.min(7, v); updateWidget(); });
+    upstashGet('nb_unlock').then(v => { unlockLevel = Math.min(8, v); updateWidget(); });
   }
 
   // ── Copy buttons ──────────────────────────────────────────────────────
@@ -2067,9 +2197,9 @@
     ['Porträtt 1 (Studio):',  'p1-tmpl'],
     ['Porträtt 2 (Miljö):',   'p2-tmpl'],
     ['Produkt:',               'prod-tmpl'],
-    ['Stockbilder:',           'stock-tmpl'],
+    ['Kommunikation:',                  'stock-tmpl'],
     ['Reklam:',         'red-tmpl'],
-    ['Viralt:',                'viral-tmpl'],
+    ['Stockbilder:',           'viral-tmpl'],
   ];
   const allTmplsEl = document.getElementById('all-tmpls');
   if (allTmplsEl) {
@@ -2143,6 +2273,23 @@
   document.querySelectorAll('.btn.padlet-btn').forEach(btn => {
     btn.addEventListener('animationiteration', () => burstBananas(btn));
   });
+
+  // ── Collage — ladda bilder automatiskt från images/collage/ ──
+  (function() {
+    const bg = document.getElementById('collageBg');
+    if (!bg) return;
+    const exts = ['png', 'jpeg', 'jpg', 'webp'];
+    const base = 'images/collage/image-';
+    function tryLoad(n, extIdx) {
+      if (n > 40) return;
+      if (extIdx >= exts.length) { tryLoad(n + 1, 0); return; }
+      const img = new Image();
+      img.onload = function() { img.alt = ''; bg.appendChild(img); tryLoad(n + 1, 0); };
+      img.onerror = function() { tryLoad(n, extIdx + 1); };
+      img.src = base + String(n).padStart(2, '0') + '.' + exts[extIdx];
+    }
+    tryLoad(1, 0);
+  })();
 </script>
 </body>
 </html>
