@@ -320,16 +320,36 @@
       opacity: .18;
     }
     .hero p {
-      color: var(--muted);
+      color: #fff;
+      font-weight: 100;
       font-size: 1.5rem;
       max-width: 58ch;
     }
     .hero-cta {
       display: flex;
-      flex-wrap: wrap;
+      flex-direction: column;
+      align-items: center;
       gap: 10px;
       margin-top: 12px;
     }
+    .hero-shortlink-label {
+      font-family: 'Outfit', sans-serif;
+      font-weight: 100;
+      font-size: 0.95rem;
+      color: rgba(255,255,255,.7);
+      letter-spacing: .04em;
+    }
+    .hero-shortlink {
+      font-family: 'Permanent Marker', cursive;
+      font-size: 1.9rem;
+      color: #FFE135;
+      text-decoration: none;
+      opacity: .9;
+      letter-spacing: .01em;
+      display: inline-block;
+      transform: rotate(-2deg);
+    }
+    .hero-shortlink:hover { opacity: 1; text-decoration: underline; }
 
     /* ── SLIDE SECTIONS (2, 3, 4) ── */
     .slide-section {
@@ -458,11 +478,18 @@
     }
 
     /* Slide 4 — cluster overview grid (centered, not full-bleed) */
+    #oversikt .slide-title {
+      font-weight: 100;
+      letter-spacing: -.03em;
+    }
+    #oversikt .slide-title::after {
+      display: none;
+    }
     .slide-section#oversikt {
       padding: 80px 72px 130px;
       height: 100vh;
       min-height: unset;
-      background: radial-gradient(ellipse 70% 50% at 50% 60%, rgba(255,210,52,.04) 0%, transparent 70%), #252523;
+      background: var(--bg);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -1253,9 +1280,15 @@
     .btn.padlet-btn:nth-of-type(6) { animation-delay: -4.0s; animation-duration: 5.9s; }
 
     .starta-btn {
-      padding: 16px 36px;
-      font-size: 13px;
+      padding: 20px 48px;
+      font-size: 15px;
       margin-top: 0;
+      border-color: #fff !important;
+      color: #fff !important;
+    }
+    .starta-btn:hover {
+      border-color: rgba(255,255,255,.7) !important;
+      color: rgba(255,255,255,.7) !important;
     }
 
     .next-link {
@@ -1658,6 +1691,8 @@
     <h2><span style="font-family:'Playfair Display',serif">N</span><span style="font-family:'Lobster',cursive">a</span><span style="font-family:'Bebas Neue',sans-serif">n</span><span style="font-family:'Pacifico',cursive">o</span> <span style="font-family:'Righteous',sans-serif">B</span><span style="font-family:'Abril Fatface',serif">o</span><span style="font-family:'Press Start 2P',monospace;font-size:.7em">n</span><span style="font-family:'Dancing Script',cursive">a</span><span style="font-family:'Permanent Marker',cursive">n</span><span style="font-family:'Fredoka One',cursive">z</span><span style="font-family:'Black Ops One',cursive">a</span></h2>
     <p>För ibl är helt enkelt genvägar bättre</p>
     <div class="hero-cta">
+      <span class="hero-shortlink-label">Öppna upp workshopen!</span>
+      <a class="hero-shortlink" href="https://bit.ly/VamosNanoBonanza" target="_blank">bit.ly/VamosNanoBonanza</a>
       <a class="btn padlet-btn starta-btn" href="#p1">Starta passet</a>
     </div>
   </section>
