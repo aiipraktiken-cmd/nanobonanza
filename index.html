@@ -516,7 +516,7 @@
       border-bottom: 1px solid #3a3a38;
       font-family: "Outfit", sans-serif;
       font-size: clamp(1.2rem, 2.2vw, 1.7rem);
-      font-weight: 100 !important;
+      font-weight: 100;
       letter-spacing: .02em;
       color: var(--text);
       text-decoration: none;
@@ -750,18 +750,19 @@
     /* ── KOMMUNIKATION + STOCKBILDER — true CSS columns masonry ── */
     #stock-intro .section-intro-imgs.masonry,
     #viral-intro .section-intro-imgs.masonry {
-      display: block;
-      columns: 3;
-      column-gap: 10px;
-      width: min(74%, 1000px);
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: none;
+      gap: 10px;
+      width: min(92%, 1300px);
       height: auto;
       max-height: none;
       overflow: visible;
+      margin: 0 auto;
     }
     #stock-intro .section-intro-imgs.masonry .section-intro-img,
     #viral-intro .section-intro-imgs.masonry .section-intro-img {
       break-inside: avoid;
-      margin-bottom: 10px;
       aspect-ratio: auto;
       display: block;
     }
@@ -771,6 +772,53 @@
       height: auto;
       object-fit: unset;
       display: block;
+    }
+
+    /* ── STOCKBILDER section-intro — editorial: stor vänster, stack höger ── */
+    #viral-intro .section-intro-imgs.masonry {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      align-items: flex-start;
+      height: auto;
+      max-height: none;
+      overflow: visible;
+      width: min(74%, 960px);
+      margin: 0 auto;
+    }
+    #viral-intro .section-intro-imgs.masonry > .section-intro-img {
+      flex: 0 0 58%;
+      aspect-ratio: auto;
+      overflow: hidden;
+      border-radius: 3px;
+    }
+    #viral-intro .section-intro-imgs.masonry > .section-intro-img img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      display: block;
+    }
+    #viral-intro .viral-stack {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    #viral-intro .viral-stack .section-intro-img {
+      aspect-ratio: auto;
+      overflow: hidden;
+      border-radius: 3px;
+      width: 100%;
+    }
+    #viral-intro .viral-stack .section-intro-img img {
+      width: 100%;
+      height: auto;
+      object-fit: unset;
+      display: block;
+    }
+    #viral-intro .viral-img3 {
+      width: 75% !important;
     }
 
     /* Reklam bento grid */
@@ -1689,7 +1737,7 @@
         <h2 class="cluster-title">Porträtt — Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="p2-ex">A professional lifestyle portrait of a woman with short styled cruly hair inspired by the composition and style of lifestyle magazine. She is wearing a black stylish hoodie layered under a stylish trench coat. The woman stands in a relaxed three-quarter pose in a gritty urban street setting. Her gaze looks outside the image and in one hand she holds a take away coffee. The background features a textured wall with posters and graffiti, with the blurred silhouettes of bicycles parked nearby. High-fidelity textures, shot on a 35mm lens, natural daylight with a soft warm tone, shallow depth of field creating a smooth bokeh effect. Contemporary, urban, and authentic.</pre>
-<p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
+        <p class="ex-hint">Justera: location, time of day, pose direction, narrative detail.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1750,7 +1798,7 @@
         <h2 class="cluster-title">Produkt</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="prod-ex">Fotorealistisk bild av [Bosch hammare med grönt skaft] svävande ståendes några centimeter över en osynlig yta, mjuk diffus skugga direkt under produkten för realism, ren ljus bakgrund med diskret tvåtons‑gradient, jämn studiobelysning, skarpa detaljer i logotyp och etikett, modern DTC‑estetik optimerad som hero‑bild på e‑handelssida</pre>
-<p class="ex-hint">Justera: material, reflection, backdrop, angle, hero ratio.</p>
+        <p class="ex-hint">Justera: material, reflection, backdrop, angle, hero ratio.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1813,7 +1861,7 @@
         <h2 class="cluster-title">Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="red-ex">Editorial photo of [scene], on-location reportage style, available light, human storytelling, balanced composition, subtle film grain, magazine-ready realism, no text overlays.</pre>
-<p class="ex-hint">Justera: event type, subject focus, mood tone, framing tightness.</p>
+        <p class="ex-hint">Justera: event type, subject focus, mood tone, framing tightness.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1876,7 +1924,7 @@
         <h2 class="cluster-title">Kommunikation</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="stock-ex">Hyper-shareable social image of [concept], impossible visual twist, bold contrast, clean focal point, instantly understandable story, high-impact thumbnail readability, no text.</pre>
-<p class="ex-hint">Justera: industry, age mix, office style, camera distance.</p>
+        <p class="ex-hint">Justera: industry, age mix, office style, camera distance.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1926,8 +1974,10 @@
     <h2 class="section-intro-title">Stockbilder</h2>
     <div class="section-intro-imgs masonry">
       <div class="section-intro-img"><img src="images/stock/image-01.png" alt="Stockbilder 1"></div>
-      <div class="section-intro-img"><img src="images/stock/image-02.png" alt="Stockbilder 2"></div>
-      <div class="section-intro-img"><img src="images/stock/image-03.png" alt="Stockbilder 3"></div>
+      <div class="viral-stack">
+        <div class="section-intro-img viral-img2"><img src="images/stock/image-02.png" alt="Stockbilder 2"></div>
+        <div class="section-intro-img viral-img3"><img src="images/stock/image-03.png" alt="Stockbilder 3"></div>
+      </div>
     </div>
   </section>
 
@@ -1939,7 +1989,7 @@
         <h2 class="cluster-title">Stockbilder</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="viral-ex">Diverse team collaborating around laptop in bright modern office, authentic candid moment, natural daylight, shallow depth of field, inclusive casting, stock photo realism, no text.</pre>
-<p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
+        <p class="ex-hint">Justera: hook, exaggeration level, palette contrast, meme potential.</p>
                 <div class="cluster-ref-imgs">
           <div class="cluster-ref-img-wrap">
             <span class="img-panel-label">Referensbild</span>
@@ -1949,7 +1999,7 @@
         </div>
             <div class="cluster-right">
         <span class="img-panel-label">Output</span>
-        <img src="images/stock/image-02.png" alt="Output stockbilder">
+        <img src="images/stock/image-01.png" alt="Output stockbilder">
       </div>
 </div>
     </div>
@@ -2039,7 +2089,7 @@
 
   // unlockLevel → max accessible slide index
   const UNLOCK_MAP   = [2, 3, 5, 7, 9, 11, 13, 15, 16, 17];
-  const SECTION_NAMES = ['Intro + Tips','Porträtt 1','Porträtt 2','Produkt','Produkt','Reklam','Kommunikation','Stockbilder','Bonus','Outro'];
+  const SECTION_NAMES = ['Intro + Tips','Tips','Porträtt 1','Porträtt 2','Produkt','Reklam','Kommunikation','Stockbilder','Bonus','Outro'];
 
   // ── Slide system ──────────────────────────────────────────────────────
   const SLIDES    = ['intro','upplagg1','sektioner','oversikt','p1-intro','p1','p2-intro','p2','prod-intro','prod','red-intro','red','stock-intro','stock','viral-intro','viral','bonus','outro'];
@@ -2168,7 +2218,7 @@
   if (!PRESENTER_MODE) {
     async function pollUnlock() {
       try {
-        const level = Math.min(8, Math.max(0, await upstashGet('nb_unlock')));
+        const level = Math.min(9, Math.max(0, await upstashGet('nb_unlock')));
         const newMax = UNLOCK_MAP[level];
         if (newMax !== maxSlide) { maxSlide = newMax; updateUI(); }
       } catch(e) {}
@@ -2187,14 +2237,14 @@
     document.body.appendChild(widget);
 
     function updateWidget() {
-      document.getElementById('widgetLabel').textContent = `${unlockLevel}/8 · ${SECTION_NAMES[unlockLevel]}`;
+      document.getElementById('widgetLabel').textContent = `${unlockLevel}/9 · ${SECTION_NAMES[unlockLevel]}`;
     }
 
     async function advanceUnlock() {
-      if (unlockLevel >= 8) return;
+      if (unlockLevel >= 9) return;
       try {
         const val = await upstashIncr('nb_unlock');
-        unlockLevel = Math.min(8, val);
+        unlockLevel = Math.min(9, val);
         updateWidget();
       } catch(e) { alert('Upstash-fel: ' + e); }
     }
@@ -2218,7 +2268,7 @@
     });
 
 
-    upstashGet('nb_unlock').then(v => { unlockLevel = Math.min(8, v); updateWidget(); });
+    upstashGet('nb_unlock').then(v => { unlockLevel = Math.min(9, v); updateWidget(); });
   }
 
   // ── Copy buttons ──────────────────────────────────────────────────────
