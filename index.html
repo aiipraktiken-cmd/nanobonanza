@@ -1443,13 +1443,36 @@
       color: #fff;
       text-align: center;
     }
-    .outro-qr {
+    .outro-qr-row {
       position: relative;
       z-index: 2;
-      width: 180px;
+      display: flex;
+      gap: 40px;
+      margin-top: 1.5rem;
+    }
+    .outro-qr {
+      width: 190px;
       height: auto;
       border-radius: 8px;
-      margin-top: 1.5rem;
+    }
+    .outro-qr-label {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding-bottom: 12px;
+      gap: 4px;
+    }
+    .outro-qr-label.left { align-items: flex-end; }
+    .outro-qr-label.right { align-items: flex-start; }
+    .outro-label-text {
+      font-family: "Permanent Marker", cursive;
+      font-size: 1.2rem;
+      color: #fff;
+      white-space: nowrap;
+    }
+    .outro-label-arrow {
+      font-size: 1.6rem;
+      color: #fff;
     }
     .collage-emoji {
       position: relative;
@@ -2187,7 +2210,18 @@ Ultra-high resolution, clean studio lighting, cohesive aesthetic, no labels exce
     </div>
     <div class="collage-overlay"></div>
     <h2 class="collage-title">Tack för mig</h2>
-    <img src="maria-qr-kod.png" alt="QR-kod" class="outro-qr">
+    <div class="outro-qr-row">
+      <div class="outro-qr-label left">
+        <span class="outro-label-text">Lägg till mig</span>
+        <span class="outro-label-arrow">→</span>
+      </div>
+      <img src="maria-qr-kod.png" alt="LinkedIn QR-kod" class="outro-qr">
+      <img src="NanoBonanza_QR.png" alt="NanoBonanza QR-kod" class="outro-qr">
+      <div class="outro-qr-label right">
+        <span class="outro-label-arrow">←</span>
+        <span class="outro-label-text">Materialet kommer på epost</span>
+      </div>
+    </div>
     <div class="collage-emoji">🫶🏻</div>
   </section>
 
