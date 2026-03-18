@@ -777,12 +777,11 @@
     #stock-intro .section-intro-imgs.masonry {
       display: flex;
       flex-direction: row;
-      gap: 10px;
-      align-items: flex-start;
-      height: auto;
-      max-height: none;
-      overflow: visible;
-      width: min(74%, 960px);
+      gap: 6px;
+      align-items: stretch;
+      height: calc(100vh - 290px);
+      overflow: hidden;
+      width: min(60%, 800px);
       margin: 0 auto;
     }
     #stock-intro .section-intro-imgs.masonry > .section-intro-img {
@@ -793,18 +792,21 @@
     }
     #stock-intro .section-intro-imgs.masonry > .section-intro-img img {
       width: 100%;
-      height: auto;
-      object-fit: unset;
+      height: 100%;
+      object-fit: contain;
+      object-position: right center;
       display: block;
     }
     #stock-intro .stock-stack {
       flex: 1;
       display: flex;
       flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
+      gap: 6px;
+      height: 100%;
     }
     #stock-intro .stock-stack .section-intro-img {
+      flex: 1;
+      min-height: 0;
       aspect-ratio: auto;
       overflow: hidden;
       border-radius: 3px;
@@ -812,9 +814,20 @@
     }
     #stock-intro .stock-stack .section-intro-img img {
       width: 100%;
-      height: auto;
-      object-fit: unset;
+      height: 100%;
+      object-fit: cover;
+      object-position: center top;
       display: block;
+    }
+    #stock-intro .stock-img2 {
+      flex: 0 0 auto !important;
+      height: 45% !important;
+    }
+    #stock-intro .stock-img2 img {
+      width: auto !important;
+      height: 100% !important;
+      object-fit: contain !important;
+      object-position: left top !important;
     }
     #stock-intro .stock-img3 {
       width: 75% !important;
@@ -1885,11 +1898,11 @@
         <h2 class="cluster-title">Produkt</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="prod-ex">Fotorealistisk bild av [Bosch hammare med grönt skaft] svävande ståendes några centimeter över en osynlig yta, mjuk diffus skugga direkt under produkten för realism, ren ljus bakgrund med diskret tvåtons‑gradient, jämn studiobelysning, skarpa detaljer i logotyp och etikett, modern DTC‑estetik optimerad som hero‑bild på e‑handelssida</pre>
-        <p class="ex-hint">Justera: material, reflection, backdrop, angle, hero ratio.</p>
+        <p class="ex-hint" style="min-height:60px;margin-top:-40px">Justera: material, reflection, backdrop, angle, hero ratio.</p>
                 <div class="cluster-ref-imgs">
-          <div class="cluster-ref-img-wrap">
+          <div class="cluster-ref-img-wrap" style="min-height:60px">
             <span class="img-panel-label">Referensbild</span>
-            <div class="img-placeholder"><p>Referensbild</p></div>
+            <img src="images/prod/referensbild.jpg" alt="Referensbild produkt" style="height:60px">
           </div>
         </div>
         </div>
@@ -1952,11 +1965,11 @@
         <h2 class="cluster-title">Reklam</h2>
         <p class="ex-label">Bildprompt</p>
         <pre class="ex-prompt" id="red-ex">Use the attached images as brand reference. Create: a testimonial ad set in a family garage with warm natural light. Bosch hammare on a table, slightly out of focus. Overlaid: large bold white text in Outfit left align "BUY QUALITY CRY ONCE". Below left aligned: "This hammer not only nails it, it the favourite of the block. Nano Bonanzasson, DIY-wannabe." Five filled dark green stars. Bosch logo bottom right in white. Shot on 35mm f/2.0. 9:16 aspect ratio.</pre>
-        <p class="ex-hint">Justera: miljö, produkt, rubrik, testimonialtext, namn/titel, betyg, aspect ratio.</p>
+        <p class="ex-hint" style="min-height:60px;margin-top:-40px">Justera: miljö, produkt, rubrik, testimonialtext, namn/titel, betyg, aspect ratio.</p>
                 <div class="cluster-ref-imgs">
-          <div class="cluster-ref-img-wrap">
+          <div class="cluster-ref-img-wrap" style="min-height:60px">
             <span class="img-panel-label">Referensbild</span>
-            <div class="img-placeholder"><p>Referensbild</p></div>
+            <img src="images/prod/referensbild.jpg" alt="Referensbild produkt" style="height:60px">
           </div>
         </div>
         </div>
@@ -2060,6 +2073,10 @@ Ultra-high resolution, clean studio lighting, cohesive aesthetic, no labels exce
             <p id="stock-e1">Use attached images as brand reference for product color and packaging ONLY. Do NOT use ad layouts or polish. This must look like a real person's Instagram Story. Create: a casual iPhone photo of a hand holding the Vont Nano Banana Hudvårdsserum with key packaging details at a slight angle over a cluttered bathroom counter with make-up brushes, an open face mask tub, hair ties, water droplets. Natural overhead daylight, slightly warm, iPhone 15 quality. Scattered across the frame: 5 text bubbles using Instagram Story's built-in highlighted text tool. Each bubble must have a highlighted background for readability, with varied highlight colors between bubbles. Bubble 1: "[Skincare routine ✨]" large and bold. Bubble 2: "[Banana extract is a potent natural source of vitamins and antioxidants for your skin!]". Bubble 3: "[I love that this serum uses natural ingredients and isn't full of chemicals]". Bubble 4: "[Week 3 and my skin is glowing like never before!]". Bubble 5: "[Nano Banana glow-up is real!]". Should feel casual and hand-placed, not designed. 9:16 aspect ratio.</p>
             <button class="copy-btn" data-copy="stock-e1">↗</button>
           </div>
+          <div class="extra">
+            <p id="stock-e2">UGC-style photo of a human hand holding an iPhone mockup. Set against a natural, slightly blurred [BESKRIVNING AV BAKGRUND] background. On the iPhone screen, the [REFERENSBILD-BESKRIVNING] is perfectly and naturally displayed, appearing as if natively on the device. Captured in [LJUSFÖRHÅLLANDEN]. The composition is casual and candid, with realistic textures on the hand and device.</p>
+            <button class="copy-btn" data-copy="stock-e2">↗</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2105,7 +2122,7 @@ Ultra-high resolution, clean studio lighting, cohesive aesthetic, no labels exce
         <p class="col-label">Mall-prompt</p>
         <p class="col-title">Kopiera och anpassa</p>
         <div class="copy-block">
-          <pre id="viral-tmpl">Whimsical [FÄRG PÅ NEON] "[TEXT]" neon sign mounted on a [VÄGGTEXTUR & FÄRG]. Small [TYP AV VÄXT] kissed by morning dew and neon warmth. Realistic glass tubes, power cables, and mounting brackets visible. Professional lifestyle photography in soft [TID PÅ DYGNET] light, balanced shadows, impeccable sharp details. Subtle airborne dust particles in bokeh, high-end commercial stock quality, precise sharp focus.</pre>
+          <pre id="viral-tmpl">[STIL/KÄNSLA] [FÄRG PÅ NEON] "[TEXT PÅ SKYLTEN]" neon sign mounted prominently on a [VÄGGTEXTUR & FÄRG] wall filling every corner. Setting in a [TYP AV MILJÖ], featuring [TYP AV VÄXTER/DETALJER] kissed by [TYP AV FUKT/LJUS] and neon warmth. Realistic glass tubes, power cables, and mounting brackets visible. Professional lifestyle stock photo in [TYP AV DAGSLJUS], balanced shadows, impeccably sharp details. Subtle [ATMOSFÄRISKA PARTIKLAR] in bokeh, high-end commercial stock image, [DOMINERANDE FÄRGTONER], precise sharp focus.</pre>
           <button class="copy-btn" data-copy="viral-tmpl">Kopiera mall</button>
         </div>
         <a class="btn padlet-btn" href="https://padlet.com/jobbaaifirst/nano-bonanza-w3cd4igsrb6gi6vv" target="_blank" rel="noopener">Dela din bild ↗</a>
